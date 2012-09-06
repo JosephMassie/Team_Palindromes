@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Direct Input">
+      <UniqueIdentifier>{1dd87c5b-4598-4ac4-af6d-3315dd452d9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fmod">
+      <UniqueIdentifier>{92446689-b75b-41a8-a67c-b2c8f548131d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DirectX">
+      <UniqueIdentifier>{8e41e98d-0893-4d09-b37e-66820744cb85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World">
+      <UniqueIdentifier>{118db811-ad2b-431b-89a6-f30347fa2c68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities">
+      <UniqueIdentifier>{08d3ec3d-695c-46df-99f9-fa46e806028e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Engine">
+      <UniqueIdentifier>{b3636e31-aaeb-4157-8cd6-bf840ae4f969}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="WinMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Direct Input</Filter>
+    </ClCompile>
+    <ClCompile Include="HelpfulData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DX2DEngine.cpp">
+      <Filter>DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngine.cpp">
+      <Filter>Game Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Room.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Direct Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Fmod</Filter>
+    </ClCompile>
+    <ClCompile Include="Dungeon.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Input.h">
+      <Filter>Direct Input</Filter>
+    </ClInclude>
+    <ClInclude Include="HelpfulData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DX2DEngine.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="v2d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngine.h">
+      <Filter>Game Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Room.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\datastruct\templatearray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\datastruct\templatevector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Direct Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Fmod</Filter>
+    </ClInclude>
+    <ClInclude Include="Dungeon.h">
+      <Filter>World</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
