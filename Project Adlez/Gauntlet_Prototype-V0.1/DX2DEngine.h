@@ -76,7 +76,7 @@ public:
 	void writeText(char *text, RECT bounds);
 	void writeCenterText(char *text, RECT bounds);
 	// Texture creation functions
-	int createTexture(LPCWSTR file);
+	int createTexture(LPCWSTR file, int length);
 	// Texture rendering functions
 	void renderTexture(int index, V2DF pos, float scale, float angle);
 };

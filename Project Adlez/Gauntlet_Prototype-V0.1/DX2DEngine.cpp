@@ -1,5 +1,6 @@
 #include "DX2DEngine.h"
 #include "Texture.h"
+#include <string.h>
 #include <stdlib.h>
 
 // make all pointers zero
@@ -200,10 +201,42 @@ void DX2DEngine::writeCenterText(char * text, RECT bounds)
 }
 
 // Load the given texture from a file if it is not already loaded
+// also takes in the length of the string
 // if the texture already exists simply return its id
 // return its ID
-int DX2DEngine::createTexture(LPCWSTR file)
+int DX2DEngine::createTexture(LPCWSTR file, int length)
 {
+	bool alreadyExists = false;
+	int index = 0;
+
+	// make sure this file has not been added prior
+	for(int i = 0; i < m_textures.size() && !alreadyExists ; ++i)
+	{
+		// firs make sure they are even the same length
+		if(length = m_textures.get(i)->length)
+		{
+			// now compare the names
+			for(int j = 0; j < length; ++j)
+			{
+				if( !(file[j] == m_textures.get(i)->name[j]) )
+					break;
+				// if the final char has been checked and is the same this texture already exists
+				if(j == length-1)
+				{
+					index = i;
+					alreadyExists = true;
+				}
+			}
+		}
+	}
+
+	// now only load the texture if it doesn't already exist
+	// if it does return the index of the one already created
+	if(alreadyExists)
+	{
+		return index;
+	}
+
 	// first load up the texture from the given file
 	TextureInfo *temp = new TextureInfo;
 
@@ -211,20 +244,16 @@ int DX2DEngine::createTexture(LPCWSTR file)
 			D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, D3DX_DEFAULT, 
 			D3DCOLOR_XRGB(255, 0, 255), &temp->m_imageInfo, 0, &temp->m_pTexture); 
 
-	int oldSize = m_textures.size();
-
-	// now attempt to add this file to the vector
-	int index = m_textures.addNoDuplicates( temp );
-
-	// check if the added texture was a duplicate 
-	// if so release it
-	if(index < oldSize)
+	// add its name and length
+	temp->length = length;
+	temp->name = new char[length];
+	for(int i = 0; i < length ; ++i)
 	{
-		temp->m_pTexture->Release();
+		temp->name[i] = file[i];
 	}
 
-	// returnt the index to the texture
-	return index;
+	// now attempt to add this file to the vector
+	return m_textures.addNoDuplicates(temp);
 }
 
 // draw the given texture with the given attributes if it exists

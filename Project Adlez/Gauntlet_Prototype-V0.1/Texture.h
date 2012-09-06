@@ -11,10 +11,7 @@ private:
 	DX2DEngine* engine;
 	// Texture reference
 	int textureID;
-	// texture variables
-	IDirect3DTexture9*	m_pTexture;		// Texture Object for a sprite
-	D3DXIMAGE_INFO		m_imageInfo;	// File details of a texture
-	// color of the texture
+	// tint of the texture
 	int m_R;
 	int m_G;
 	int m_B;
@@ -26,5 +23,4 @@ public:
 	void setTint(int R, int G, int B);
 	void release();
 	void draw(V2DF pos, float rotAngle, float scale);
-	void draw2(V2DF pos, float rotAngle, float scale);
 };
