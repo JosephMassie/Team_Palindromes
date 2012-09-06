@@ -97,9 +97,6 @@ void DX2DEngine::initialize(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	//////////////////////////////////////////////////////////////////////////
 	// Create a Font Object
 	//////////////////////////////////////////////////////////////////////////
-	
-	// Load a font for private use for this process
-	AddFontResourceEx(L"Delicious-Roman.otf", FR_PRIVATE, 0);
 
 	// Load D3DXFont, each font style you want to support will need an ID3DXFont
 	D3DXCreateFont( m_pD3DDevice, 30, 0, FW_BOLD, 0, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, 
