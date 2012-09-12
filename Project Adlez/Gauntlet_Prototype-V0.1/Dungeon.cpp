@@ -112,17 +112,17 @@ void Dungeon::initialise(char* floorName, GameEngine* ref)
 				roomName[8] = 0;
 				// now load the given room file
 				m_layout[y][x] = new Room(); 
-				m_layout[y][x]->initialize(roomName, L"wall.png", L"floor.png", L"door.png", L"door.png", BASIC, ref);
+				m_layout[y][x]->initialize(roomName, BASIC, ref);
 				break;
 			case 'S': // start
 				// just load the start room
 				m_layout[y][x] = new Room();
-				m_layout[y][x]->initialize("start.txt", L"wall.png", L"floor.png", L"door.png", L"door.png", START, ref);
+				m_layout[y][x]->initialize("start.txt", START, ref);
 				start = m_layout[y][x];
 				break;
 			case 'E': // end
 				m_layout[y][x] = new Room();
-				m_layout[y][x]->initialize("end.txt", L"wall.png", L"floor.png", L"door.png", L"door.png", END, ref);
+				m_layout[y][x]->initialize("end.txt", END, ref);
 				end = m_layout[y][x];
 				break;
 			case '.': // blank

@@ -36,6 +36,8 @@ void Texture::initialize(LPCWSTR fileName)
 	{
 		i++;
 	}
+	// increment one more time for the null terminator
+	i++;
 
 	// also load from graphics engine
 	textureID = engine->createTexture(fileName, i);

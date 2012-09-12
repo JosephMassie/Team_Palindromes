@@ -24,22 +24,26 @@ Room::~Room()
 void Room::release()
 {
 	m_floorTex.release();
-	m_wallTex.release();
+	m_wallBaseTex.release();
+	m_edgeTex.release();
+	m_connectTex.release();
 	m_doorTex.release();
 	m_lockedTex.release();
 }
 
 // load all textures and set up the room
-void Room::initialize(char* roomFile, LPCWSTR wall, LPCWSTR floor, LPCWSTR door, LPCWSTR locked, ROOM_TYPE type, GameEngine *ref)
+void Room::initialize(char* roomFile, ROOM_TYPE type, GameEngine *ref)
 {
 	pGEngine = ref;
 	// set room type
 	m_type = type;
 	// first load textures
-	m_floorTex.initialize(floor);
-	m_wallTex.initialize(wall);
-	m_doorTex.initialize(door);
-	m_lockedTex.initialize(locked);
+	m_floorTex.initialize(L"floor.png");
+	m_wallBaseTex.initialize(L"wall_base.png");
+	m_edgeTex.initialize(L"wall_edge.png");
+	m_connectTex.initialize(L"wall_connection.png");
+	m_doorTex.initialize(L"door.png");
+	m_lockedTex.initialize(L"locked.png");
 	// create fstream opject to load map from file
 	int y = 0;
 	FILE* file;
@@ -62,17 +66,14 @@ void Room::initialize(char* roomFile, LPCWSTR wall, LPCWSTR floor, LPCWSTR door,
 			switch(temp)
 			{
 			case'.': // floor
-				m_layout[y][x].m_tex = &m_floorTex;
 				m_layout[y][x].m_type = FLOOR;
 				break;
 			case '#': // wall
-				m_layout[y][x].m_tex = &m_wallTex;
 				m_layout[y][x].m_type = WALL;
 				break;
 			case 'D': // door
 				m_layout[y][x].m_door.locked = false;
 				m_layout[y][x].m_type = DOOR;
-				m_layout[y][x].m_tex = &m_doorTex;
 				break;
 			case -1:
 				break;
@@ -98,7 +99,49 @@ void Room::render()
 			V2DF temp;
 			temp.x = (x * GRID_SIZE) + BORDER + HALF_GRID;
 			temp.y = (y * GRID_SIZE) + BORDER + HALF_GRID;
-			m_layout[y][x].m_tex->draw(temp, 0.0f, 1.0f);
+			// now draw the correct texture based on the tile type
+			switch( m_layout[y][x].m_type )
+			{
+			case WALL:
+				// first draw the base of the wall
+				m_wallBaseTex.draw(temp, 0.0f, 1.0f);
+				// draw the top side
+				// if there is another wall connect them
+				if( y-1 >= 0 && y-1 < ROOM_HEIGHT && m_layout[y-1][x].m_type == WALL )
+					m_connectTex.draw(temp, 0.0f, 1.0f);
+				else // if there isn't draw the edge
+					m_edgeTex.draw(temp, 0.0f, 1.0f);
+				// draw the bottom side
+				// if there is another wall connect them
+				if( y+1 >= 0 && y+1 < ROOM_HEIGHT && m_layout[y+1][x].m_type == WALL )
+					m_connectTex.draw(temp, 180.0f, 1.0f);
+				else // if there isn't draw the edge
+					m_edgeTex.draw(temp, 180.0f, 1.0f);
+				// draw the right side
+				// if there is another wall connect them
+				if( x+1 >= 0 && x+1 < ROOM_WIDTH && m_layout[y][x+1].m_type == WALL )
+					m_connectTex.draw(temp, 90.0f, 1.0f);
+				else // if there isn't draw the edge
+					m_edgeTex.draw(temp, 90.0f, 1.0f);
+				// draw the left side
+				// if there is another wall connect them
+				if( x-1 >= 0 && x-1 < ROOM_WIDTH && m_layout[y][x-1].m_type == WALL )
+					m_connectTex.draw(temp, -90.0f, 1.0f);
+				else // if there isn't draw the edge
+					m_edgeTex.draw(temp, -90.0f, 1.0f);
+				break;
+			case FLOOR:
+				// draw the floor texture
+				m_floorTex.draw(temp, 0.0f, 1.0f);
+				break;
+			case DOOR:
+				// check if this door is locked
+				if(m_layout[y][x].m_door.locked)
+					m_lockedTex.draw(temp, 0.0f, 1.0f);
+				else
+					m_doorTex.draw(temp, 0.0f, 1.0f);
+				break;
+			}
 		}
 	}
 }

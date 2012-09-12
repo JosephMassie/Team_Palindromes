@@ -32,7 +32,6 @@ struct Node
 {
 	Door m_door;
 	NODE_TYPE m_type;
-	Texture *m_tex;
 };
 
 class Room
@@ -44,7 +43,9 @@ private:
 	Node m_layout[ROOM_HEIGHT][ROOM_WIDTH];
 	// textures used by the room's various node types
 	Texture m_floorTex;
-	Texture m_wallTex;
+	Texture m_wallBaseTex;
+	Texture m_edgeTex;
+	Texture m_connectTex;
 	Texture m_doorTex;
 	Texture m_lockedTex;
 	// room control variables
@@ -53,7 +54,7 @@ private:
 public:
 	Room();
 	~Room();
-	void initialize(char* roomFile, LPCWSTR wall, LPCWSTR floor, LPCWSTR door, LPCWSTR locked, ROOM_TYPE type, GameEngine *ref);
+	void initialize(char* roomFile, ROOM_TYPE type, GameEngine *ref);
 	void release();
 	void render();
 	void setDoors(Room* doors[4]);

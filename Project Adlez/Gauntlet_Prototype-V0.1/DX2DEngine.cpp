@@ -171,14 +171,6 @@ void DX2DEngine::release()
 		m_pD3DDevice->Release();
 	m_pD3DDevice = 0;
 
-	// make sure to release all textures
-	for(int i = 0; i < m_textures.size(); i++)
-	{
-		// if the texture exists release it
-		if(m_textures.get(i)->m_pTexture)
-			m_textures.get(i)->m_pTexture->Release();
-	}
-
 	// now release the vector itself
 	m_textures.release();
 
@@ -246,14 +238,18 @@ int DX2DEngine::createTexture(LPCWSTR file, int length)
 
 	// add its name and length
 	temp->length = length;
+	// make sure this is initialized to 0
 	temp->name = new char[length];
+	for(int i = 0; i < length; ++i)
+		temp->name[i] = 0;
 	for(int i = 0; i < length ; ++i)
 	{
 		temp->name[i] = file[i];
 	}
 
 	// now attempt to add this file to the vector
-	return m_textures.addNoDuplicates(temp);
+	m_textures.add(temp);
+	return m_textures.size()-1;
 }
 
 // draw the given texture with the given attributes if it exists
