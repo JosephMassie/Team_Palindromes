@@ -3,7 +3,11 @@
 #include "Texture.h"
 #include "HelpfulData.h"
 
-enum SIDE {RIGHT,LEFT,TOP,BOT};
+// used as return type for collision function
+// NONE = no collision occured
+// MAIN = only the main rect was collided with or only the main rect was checked
+// RIGHT, LEFT, TOP, BOT = corresponding side was collided 
+enum SIDE {NONE,RIGHT,LEFT,TOP,BOT,MAIN};
 
 // base class for all in-game entities
 class Entity
@@ -65,8 +69,99 @@ public:
 	// m_pos must be in screen coordinates
 	virtual void render() { m_tex.draw(m_pos, m_angle, m_scale); }
 
+	// Detects if the given entity is colliding with this entity
+	// If the checkSides flag is true it will detect which side the collision occurded on and ...
+	// ...calculate interpentration as well as move the entities apart
+	// returns a SIDE to based on what occured NONE = no collision, MAIN = only the main
+	// RIGHT, LEFT, TOP, BOT = the appropriate side was collided with
+	// checkSides true = check sub rects, false = ignore
+	// NOTE:: the entity making the function call is the one that will be moved, other will be left were it is...
+	// ...this also means that only the calling entities sub rects will be taken into account
+	SIDE collisionCheck(Entity * other, bool checkSides)
+	{
+		// this rect will be used only for interpentration calculations
+		FRect mainA = getRelativeBoundRect();
+		// first determine if the entites main rects are colliding
+		// get the rects relative to positions
+		FRect rectA = getRelativeBoundRect();
+		FRect rectB = other->getRelativeBoundRect();
+		// check if they are colliding
+		if( colliding(rectA, rectB) )
+		{
+			// used to store return value
+			SIDE temp = MAIN;
+			// now determine if sides need to be checked
+			if(checkSides)
+			{
+				// check each subRect in the order RIGHT, LEFT, TOP, BOTTOM
+				// RIGHT
+				rectA = getSubRect(RIGHT);
+				rectB = other->getRelativeBoundRect();
+				if( colliding(rectA, rectB) )
+				{
+					// refresh copies of main rects
+					mainA = getRelativeBoundRect();
+					// calculate interpenetration distance
+					float pen = mainA.right - rectB.left;
+					// move this entity accordingly
+					m_pos.x -= pen;
+					// set return value 
+					temp = RIGHT;
+				}
+				// LEFT
+				rectA = getSubRect(LEFT);
+				rectB = other->getRelativeBoundRect();
+				if( colliding(rectA, rectB) )
+				{
+					// refresh copies of main rects
+					mainA = getRelativeBoundRect();
+					// calculate interpenetration distance
+					float pen = mainA.left - rectB.right;
+					// move this entity accordingly
+					m_pos.x -= pen;
+					// set return value
+					temp = LEFT;
+				}
+				// TOP
+				rectA = getSubRect(TOP);
+				rectB = other->getRelativeBoundRect();
+				if( colliding(rectA, rectB) )
+				{
+					// refresh copies of main rects
+					mainA = getRelativeBoundRect();
+					// calculate interpenetration distance
+					float pen = mainA.top - rectB.bottom;
+					// move this entity accordingly
+					m_pos.y -= pen;
+					// set return value
+					temp = TOP;
+				}
+				// BOTTOM
+				rectA = getSubRect(BOT);
+				rectB = other->getRelativeBoundRect();
+				if( colliding(rectA, rectB) )
+				{
+					// refresh copies of main rects
+					mainA = getRelativeBoundRect();	
+					// calculate interpenetration distance
+					float pen = mainA.bottom - rectB.top;
+					// move this entity accordingly
+					m_pos.y -= pen;
+					// set return value
+					temp = BOT;
+				}
+				// now return temp
+				return temp;
+			}
+			else
+				return MAIN;
+		}
+		// no collision occurd return none
+		return NONE;
+	}
+
 	// return a bound rect relative to position
-	FRect getBoundRect()
+	FRect getRelativeBoundRect()
 	{
 		FRect temp;
 		temp.top = m_pos.y + m_boundRect.top;
@@ -74,6 +169,12 @@ public:
 		temp.right = m_pos.x + m_boundRect.right;
 		temp.bottom = m_pos.y + m_boundRect.bottom;
 		return temp;
+	}
+
+	// return a copy of the bound rect 
+	FRect getBoundRect()
+	{
+		return m_boundRect;
 	}
 	
 	// return a sub bound rect of the given side relative to position

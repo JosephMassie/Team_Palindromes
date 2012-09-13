@@ -72,7 +72,7 @@ bool Player::collisionCheck()
 	// temp value used to store position of collided objects
 	V2DF pen(0,0); // initialized to 1,1 for the collision functions
 	bool collided = false; // used to control collision so multiple sides aren't checked preventing errors
-	FRect checkRect = getBoundRect();
+	FRect checkRect = getRelativeBoundRect();
 	// first check if the player is colliding in general with terrain
 	if(m_curRoom->collImpassable(checkRect, m_pos, &pen,RIGHT))
 	{
@@ -207,7 +207,7 @@ void Player::getInput()
 	// check the the player's current space is an unlocked door
 	// used to get next room
 	V2DF posNew(0,0);
-	Room* nextRoom = m_curRoom->collOpenDoors(getBoundRect(), posNew);	
+	Room* nextRoom = m_curRoom->collOpenDoors(getRelativeBoundRect(), posNew);	
 	// if so move the player to the next room
 	// if the next room exists go to it
 	if(nextRoom)
