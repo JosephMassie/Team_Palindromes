@@ -20,7 +20,7 @@ private:
 	float dmg;
 	float aSpd;
 	//---------------
-	bool collisionCheck();
+	bool checkForCollisions();
 	ClDwn canShoot;
 	void getInput();
 public:

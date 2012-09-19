@@ -37,20 +37,20 @@ void Player::initialize(FRect a_rect)
 	// right
 	m_right.top = m_boundRect.top + 3;
 	m_right.right = m_boundRect.right;
-	m_right.left = m_boundRect.right - 5;
+	m_right.left = m_boundRect.right - 3;
 	m_right.bottom = m_boundRect.bottom - 3;
 	// left
 	m_left.top = m_boundRect.top + 3;
-	m_left.right = m_boundRect.left + 5;
+	m_left.right = m_boundRect.left + 3;
 	m_left.left = m_boundRect.left;
 	m_left.bottom = m_boundRect.bottom - 3;
 	// top
 	m_top.top = m_boundRect.top;
 	m_top.right = m_boundRect.right - 3;
 	m_top.left = m_boundRect.left + 3;
-	m_top.bottom = m_boundRect.top + 5;
+	m_top.bottom = m_boundRect.top + 3;
 	// bottom
-	m_bottom.top = m_boundRect.bottom - 5;
+	m_bottom.top = m_boundRect.bottom - 3;
 	m_bottom.right = m_boundRect.right - 3;
 	m_bottom.left = m_boundRect.left + 3;
 	m_bottom.bottom = m_boundRect.bottom;
@@ -67,54 +67,11 @@ void Player::initialize(FRect a_rect)
 
 // internal function to deside if the next space is enterable
 // Return true if no collisions accured and false otherwise
-bool Player::collisionCheck()
+bool Player::checkForCollisions()
 {
-	// temp value used to store position of collided objects
-	V2DF pen(0,0); // initialized to 1,1 for the collision functions
-	bool collided = false; // used to control collision so multiple sides aren't checked preventing errors
-	FRect checkRect = getRelativeBoundRect();
-	// first check if the player is colliding in general with terrain
-	if(m_curRoom->collImpassable(checkRect, m_pos, &pen,RIGHT))
-	{
-		// if the collision is on the right side
-		// make sure to reset penetration
-		pen = V2DF(0,0);
-		checkRect = getSubRect(RIGHT);
-		if(m_curRoom->collImpassable(checkRect, m_pos, &pen, RIGHT))
-		{
-			// augment x position by the x componet of the penetration vector
-			m_pos.x -= pen.x;
-		}
-		// if the collision is on the left side
-		// make sure to reset penetration
-		pen = V2DF(0,0);
-		checkRect = getSubRect(LEFT);
-		if(m_curRoom->collImpassable(checkRect, m_pos, &pen, LEFT))
-		{
-			// augment x position by the x componet of the penetration vector
-			m_pos.x -= pen.x;
-		}
-		// if the collision is on the top side
-		// make sure to reset penetration
-		pen = V2DF(0,0);
-		checkRect = getSubRect(TOP);
-		if(m_curRoom->collImpassable(checkRect, m_pos, &pen, TOP))
-		{
-			// augment x position by the x componet of the penetration vector
-			m_pos.y -= pen.y;
-		}
-		// if the collision is on the bottom side
-		// make sure to reset penetration
-		pen = V2DF(0,0);
-		checkRect = getSubRect(BOT);
-		if(m_curRoom->collImpassable(checkRect, m_pos, &pen, BOT))
-		{
-			// augment x position by the x componet of the penetration vector
-			m_pos.y -= pen.y;
-		}
-	}
-	
-	// now return whether a collision has occured
+	bool collided = false;
+	// check against all walls
+	collided = m_curRoom->coll_walls(this);
 	return collided;
 }
 
@@ -144,7 +101,7 @@ void Player::Update(float dT, GameEngine* engine)
 	V2DF mouse = pInput->getMousePos();
 	V2DF difference = mouse.difference(m_pos);
 	// add a little fudge factor for error
-	m_angle = atan2f(difference.y,difference.x)*(180.0f/V2D_PI) + 90.0f;
+//	m_angle = atan2f(difference.y,difference.x)*(180.0f/V2D_PI) + 90.0f;
 
 	// get key input
 	getInput();
@@ -161,7 +118,8 @@ void Player::Update(float dT, GameEngine* engine)
 	velocity.multiply(.8);
 
 	// now check if anything has collided
-	collisionCheck();
+	checkForCollisions();
+	resolveCollisions(); // if a collision occured resolve it
 }
 
 void Player::setCurrentRoom(Room* a_room)

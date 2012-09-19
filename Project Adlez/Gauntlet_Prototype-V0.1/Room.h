@@ -61,6 +61,6 @@ public:
 	Node checkLocation(int x, int y);
 	void enterRoom(Player * thePlayer);
 	void update(float dT);
-	bool collImpassable(FRect a_rect, V2DF pos, V2DF* pen, SIDE side);
+	bool coll_walls(Entity* entity);
 	Room* collOpenDoors(FRect a_rect, V2DF& posNew);
 };

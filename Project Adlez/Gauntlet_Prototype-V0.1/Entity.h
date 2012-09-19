@@ -9,6 +9,14 @@
 // RIGHT, LEFT, TOP, BOT = corresponding side was collided 
 enum SIDE {NONE,RIGHT,LEFT,TOP,BOT,MAIN};
 
+// used to save collisions that have occured
+struct Collision
+{
+	FRect m_rect;
+	SIDE m_side;
+	float m_pen;
+};
+
 // base class for all in-game entities
 class Entity
 {
@@ -23,6 +31,7 @@ protected:
 	FRect m_left;
 	FRect m_top;
 	FRect m_bottom;
+	TemplateVector<Collision> m_collisions;
 public:
 	// default constructor
 	Entity()
@@ -33,13 +42,17 @@ public:
 	// ...and load the given image file into texture
 	Entity(V2DF a_pos, LPCWSTR texName, FRect a_rect, float a_angle, float a_scale)
 		:m_pos(a_pos), m_boundRect(a_rect), m_angle(a_angle), m_scale(a_scale)
-	{ m_tex.initialize(texName); }
+	{ 
+		if(texName)
+			m_tex.initialize(texName); 
+	}
 
 	// Same as constructor for ease of use
 	void initialize(V2DF a_pos, LPCWSTR texName, FRect a_rect, float a_angle, float a_scale)
 	{
 		m_pos = a_pos;
-		m_tex.initialize(texName);
+		if(texName)
+			m_tex.initialize(texName);
 		m_boundRect = a_rect;
 		m_angle = a_angle;
 		m_scale = a_scale;
@@ -71,7 +84,9 @@ public:
 
 	// Detects if the given entity is colliding with this entity
 	// If the checkSides flag is true it will detect which side the collision occurded on and ...
-	// ...calculate interpentration as well as move the entities apart
+	// ...calculate interpentration as well as move the entities apart.
+	// All collisions that occured this frame are stored in the m_collisions vector and are resovled by the...
+	// ...resolveCollisions() function
 	// returns a SIDE to based on what occured NONE = no collision, MAIN = only the main
 	// RIGHT, LEFT, TOP, BOT = the appropriate side was collided with
 	// checkSides true = check sub rects, false = ignore
@@ -79,12 +94,12 @@ public:
 	// ...this also means that only the calling entities sub rects will be taken into account
 	SIDE collisionCheck(Entity * other, bool checkSides)
 	{
-		// this rect will be used only for interpentration calculations
-		FRect mainA = getRelativeBoundRect();
 		// first determine if the entites main rects are colliding
 		// get the rects relative to positions
 		FRect rectA = getRelativeBoundRect();
+		// get the relative rect of the other entity
 		FRect rectB = other->getRelativeBoundRect();
+		Collision col;
 		// check if they are colliding
 		if( colliding(rectA, rectB) )
 		{
@@ -96,68 +111,173 @@ public:
 				// check each subRect in the order RIGHT, LEFT, TOP, BOTTOM
 				// RIGHT
 				rectA = getSubRect(RIGHT);
-				rectB = other->getRelativeBoundRect();
 				if( colliding(rectA, rectB) )
 				{
-					// refresh copies of main rects
-					mainA = getRelativeBoundRect();
 					// calculate interpenetration distance
-					float pen = mainA.right - rectB.left;
-					// move this entity accordingly
-					m_pos.x -= pen;
+					col.m_pen = (rectA.right - rectB.left);
+					col.m_side = RIGHT;
+					col.m_rect = rectB;
+					m_collisions.add(col);
 					// set return value 
 					temp = RIGHT;
 				}
 				// LEFT
 				rectA = getSubRect(LEFT);
-				rectB = other->getRelativeBoundRect();
 				if( colliding(rectA, rectB) )
 				{
-					// refresh copies of main rects
-					mainA = getRelativeBoundRect();
 					// calculate interpenetration distance
-					float pen = mainA.left - rectB.right;
-					// move this entity accordingly
-					m_pos.x -= pen;
+					col.m_pen = (rectA.left - rectB.right);
+					col.m_side = LEFT;
+					col.m_rect = rectB;
+					m_collisions.add(col);
 					// set return value
 					temp = LEFT;
 				}
 				// TOP
 				rectA = getSubRect(TOP);
-				rectB = other->getRelativeBoundRect();
 				if( colliding(rectA, rectB) )
 				{
-					// refresh copies of main rects
-					mainA = getRelativeBoundRect();
 					// calculate interpenetration distance
-					float pen = mainA.top - rectB.bottom;
-					// move this entity accordingly
-					m_pos.y -= pen;
+					col.m_pen = (rectA.top - rectB.bottom);
+					col.m_side = TOP;
+					col.m_rect = rectB;
+					m_collisions.add(col);
 					// set return value
 					temp = TOP;
 				}
 				// BOTTOM
 				rectA = getSubRect(BOT);
-				rectB = other->getRelativeBoundRect();
 				if( colliding(rectA, rectB) )
 				{
-					// refresh copies of main rects
-					mainA = getRelativeBoundRect();	
 					// calculate interpenetration distance
-					float pen = mainA.bottom - rectB.top;
-					// move this entity accordingly
-					m_pos.y -= pen;
+					col.m_pen = (rectA.bottom - rectB.top);
+					col.m_side = BOT;
+					col.m_rect = rectB;
+					m_collisions.add(col);
 					// set return value
 					temp = BOT;
 				}
-				// now return temp
-				return temp;
 			}
-			else
-				return MAIN;
+			return temp;
 		}
 		// no collision occurd return none
 		return NONE;
+	}
+
+	// overload of the previous function
+	// functions exactly the same although it takes in a rect rather than another entity
+	SIDE collisionCheck(FRect rectB, bool checkSides)
+	{
+		// first determine if the entites main rects are colliding
+		// get the rects relative to positions
+		FRect rectA = getRelativeBoundRect();
+		Collision col;
+		// check if they are colliding
+		if( colliding(rectA, rectB) )
+		{
+			// used to store return value
+			SIDE temp = MAIN;
+			// now determine if sides need to be checked
+			if(checkSides)
+			{
+				// check each subRect in the order RIGHT, LEFT, TOP, BOTTOM
+				// RIGHT
+				rectA = getSubRect(RIGHT);
+				if( colliding(rectA, rectB) )
+				{
+					// calculate interpenetration distance
+					col.m_pen = (rectA.right - rectB.left);
+					col.m_side = RIGHT;
+					col.m_rect = rectB;
+					m_collisions.add(col);
+					// set return value 
+					temp = RIGHT;
+				}
+				// LEFT
+				rectA = getSubRect(LEFT);
+				if( colliding(rectA, rectB) )
+				{
+					// calculate interpenetration distance
+					col.m_pen = (rectA.left - rectB.right);
+					col.m_side = LEFT;
+					col.m_rect = rectB;
+					m_collisions.add(col);
+					// set return value
+					temp = LEFT;
+				}
+				// TOP
+				rectA = getSubRect(TOP);
+				if( colliding(rectA, rectB) )
+				{
+					// calculate interpenetration distance
+					col.m_pen = (rectA.top - rectB.bottom);
+					col.m_side = TOP;
+					col.m_rect = rectB;
+					m_collisions.add(col);
+					// set return value
+					temp = TOP;
+				}
+				// BOTTOM
+				rectA = getSubRect(BOT);
+				if( colliding(rectA, rectB) )
+				{
+					// calculate interpenetration distance
+					col.m_pen = (rectA.bottom - rectB.top);
+					col.m_side = BOT;
+					col.m_rect = rectB;
+					m_collisions.add(col);
+					// set return value
+					temp = BOT;
+				}
+			}
+			return temp;
+		}
+		// no collision occurd return none
+		return NONE;
+	}
+
+	// resovle all collisions saved in the m_collisions vector and then clears the vector
+	void resolveCollisions()
+	{
+		// get a copy of this entity's bound rect 
+		FRect rectA = getRelativeBoundRect();
+		// used to hold the current collisions being resloved
+		Collision bestVert; bestVert.m_pen = 0.0f; bestVert.m_rect = rectA; bestVert.m_side = MAIN;
+		Collision bestHoriz; bestHoriz.m_pen = 0.0f; bestHoriz.m_rect = rectA; bestHoriz.m_side = MAIN;
+		// only search through the list if there was more than 1 collision
+		if(m_collisions.size() > 0)
+		{
+			//assume the first collision is the best
+			if( m_collisions.get(0).m_side == RIGHT || m_collisions.get(0).m_side == LEFT )
+				bestHoriz = m_collisions.get(0);
+			else
+				bestVert = m_collisions.get(0);
+
+			// go through the list of collisions and find the closest horizantel and vertical components to the entity
+			for(int i = 1; i < m_collisions.size(); ++i)
+			{
+				// first determine if this was a horizantal or vertical collision
+				if ( m_collisions.get(i).m_side == RIGHT || m_collisions.get(i).m_side == LEFT )
+				{
+					// check against the best horizantal
+					if( m_collisions.get(i).m_pen < bestHoriz.m_pen || bestHoriz.m_pen == 0)
+						bestHoriz = m_collisions.get(i);
+				}
+				else
+				{
+					// check against the best vertical
+					if( m_collisions.get(i).m_pen < bestVert.m_pen || bestVert.m_pen == 0)
+						bestVert = m_collisions.get(i);
+				}
+			}
+
+			// now augment the position based on these values
+			m_pos.x -= bestHoriz.m_pen;
+			m_pos.y -= bestVert.m_pen;
+
+			// remember to clear the list of collisions
+			m_collisions.clear();
+		}
 	}
 
 	// return a bound rect relative to position

@@ -204,100 +204,38 @@ void Room::update(float dT)
 {
 }
 
-// check if the given rect collides with any walls or doors on the map
-// pass is 0 it is the player
-// otherwise pass in something else.
-// this position is used as outp do not put in the player's position
-bool Room::collImpassable(FRect a_rect, V2DF pos, V2DF* pen, SIDE side)
+// check if the given entity is colliding with any walls in the room
+// return true if any collisions occured and false otherwise
+bool Room::coll_walls(Entity* entity)
 {
+	// hold the result of whether a collision occured
+	bool result = false;
 	// go through the entire room and check against each door/wall
 	for(int y = 0; y < ROOM_HEIGHT; y++)
 	{
 		for(int x = 0; x < ROOM_WIDTH; x++)
 		{
-			// check if this is the player or somethin
-			if(pen->x == 0)
+			// first make sure that the space is a wall
+			if( m_layout[y][x].m_type == WALL )
 			{
-				// only check walls and doors
-				if( m_layout[y][x].m_type == WALL || (m_layout[y][x].m_type == DOOR && m_layout[y][x].m_door.locked) )
-				{
-					// calculate this tile's rect
-					V2DF temp;
-					temp.x = (x * GRID_SIZE) + BORDER + HALF_GRID;
-					temp.y = (y * GRID_SIZE) + BORDER + HALF_GRID;
-					FRect bRect;
-					bRect.top = temp.y - 16.0f;
-					bRect.left = temp.x - 16.0f;
-					bRect.right = temp.x + 16.0f;
-					bRect.bottom = temp.y + 16.0f;
-					// check if it is colliding with the given rect
-					bool collided = colliding(a_rect, bRect);
-					if(collided) // if it is return true
-					{
-						// assume collision widths are 8 and 16
-						// get the distance between the positions
-						switch(side)
-						{
-						case RIGHT:
-							pen->x = (a_rect.right - bRect.left);
-							break;
-						case LEFT:
-							pen->x = (a_rect.left - bRect.right);
-							break;
-						case TOP:
-							pen->y = (a_rect.top - bRect.bottom);
-							break;
-						case BOT:
-							pen->y = (a_rect.bottom - bRect.top);
-							break;
-						}
-						return true;
-					}
-				}
-			}
-			else
-			{
-				// only check walls and doors
-				if(m_layout[y][x].m_type != FLOOR)
-				{
-					// calculate this tile's rect
-					V2DF temp;
-					temp.x = (x * GRID_SIZE) + BORDER + HALF_GRID;
-					temp.y = (y * GRID_SIZE) + BORDER + HALF_GRID;
-					FRect bRect;
-					bRect.top = temp.y - 16.0f;
-					bRect.left = temp.x - 16.0f;
-					bRect.right = temp.x + 16.0f;
-					bRect.bottom = temp.y + 16.0f;
-					// check if it is colliding with the given rect
-					bool collided = colliding(a_rect, bRect);
-					if(collided) // if it is return true
-					{
-						// assume collision widths are 8 and 16
-						// get the distance between the positions
-						switch(side)
-						{
-						case RIGHT:
-							pen->x = (a_rect.right - bRect.left);
-							break;
-						case LEFT:
-							pen->x = (a_rect.left - bRect.right);
-							break;
-						case TOP:
-							pen->y = (a_rect.top - bRect.bottom);
-							break;
-						case BOT:
-							pen->y = (a_rect.bottom - bRect.top);
-							break;
-						}
-						return true;
-					}
-				}
+				// calculate this tile's rect
+				V2DF temp;
+				temp.x = (x * GRID_SIZE) + BORDER + HALF_GRID;
+				temp.y = (y * GRID_SIZE) + BORDER + HALF_GRID;
+				FRect bRect;
+				bRect.top = temp.y - 16.0f;
+				bRect.left = temp.x - 16.0f;
+				bRect.right = temp.x + 16.0f;
+				bRect.bottom = temp.y + 16.0f;
+				// now check if this wall collides with the given entity
+				SIDE check = entity->collisionCheck(bRect, true);
+				if (  check != NONE )
+					result = true;
 			}
 		}
 	}
 	// the given rect collides with no walls or doors return false
-	return false;
+	return result;
 }
 
 Room* Room::collOpenDoors(FRect a_rect, V2DF& posNew)

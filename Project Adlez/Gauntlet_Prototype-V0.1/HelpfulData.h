@@ -10,9 +10,9 @@
 #include "templatevector.h"
 #include "v2d.h"
 
-#define GRID_SIZE 32
-#define HALF_GRID 16
-#define BORDER 32
+#define GRID_SIZE 32.0f
+#define HALF_GRID 16.0f
+#define BORDER 32.0f
 
 struct FRect
 {
