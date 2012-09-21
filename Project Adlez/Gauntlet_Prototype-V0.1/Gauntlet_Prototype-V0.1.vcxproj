@@ -81,6 +81,7 @@
     <ClCompile Include="DX2DEngine.cpp" />
     <ClCompile Include="Dungeon.cpp" />
     <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="GraphNode.cpp" />
     <ClCompile Include="HelpfulData.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -96,6 +97,8 @@
     <ClInclude Include="framework\datastruct\templatearray.h" />
     <ClInclude Include="framework\datastruct\templatevector.h" />
     <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="Graph.h" />
+    <ClInclude Include="GraphNode.h" />
     <ClInclude Include="HelpfulData.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Dungeon.h" />

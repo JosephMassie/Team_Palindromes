@@ -66,6 +66,9 @@
     <ClCompile Include="Dungeon.cpp">
       <Filter>World</Filter>
     </ClCompile>
+    <ClCompile Include="GraphNode.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -108,6 +111,12 @@
       <Filter>Fmod</Filter>
     </ClInclude>
     <ClInclude Include="Dungeon.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphNode.h">
       <Filter>World</Filter>
     </ClInclude>
   </ItemGroup>

@@ -101,7 +101,10 @@ void Player::Update(float dT, GameEngine* engine)
 	V2DF mouse = pInput->getMousePos();
 	V2DF difference = mouse.difference(m_pos);
 	// add a little fudge factor for error
-//	m_angle = atan2f(difference.y,difference.x)*(180.0f/V2D_PI) + 90.0f;
+	m_angle = atan2f(difference.y,difference.x)*(180.0f/V2D_PI) + 90.0f;
+	// make sure m_angle is positive
+	if(m_angle < 0.0f)
+		m_angle += 360.0f;
 
 	// get key input
 	getInput();
