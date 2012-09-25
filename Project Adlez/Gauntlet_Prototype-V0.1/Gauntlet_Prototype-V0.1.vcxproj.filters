@@ -69,6 +69,9 @@
     <ClCompile Include="GraphNode.cpp">
       <Filter>World</Filter>
     </ClCompile>
+    <ClCompile Include="Graph.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">

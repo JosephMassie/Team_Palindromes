@@ -1,6 +1,9 @@
 #pragma once
 #include "HelpfulData.h"
 
+class GraphNode;
+
+// used to easily store connections
 struct Connection
 {
 	GraphNode* neighbor;
@@ -10,7 +13,9 @@ struct Connection
 class GraphNode
 {
 private:
+	// all connections this node has
 	TemplateVector<Connection> m_neighbors;
+	// position in world space
 	V2DF m_position;
 public:
 	GraphNode();

@@ -2,6 +2,7 @@
 #include "HelpfulData.h"
 #include "Player.h"
 #include "Texture.h"
+#include "Graph.h"
 extern class GameEngine;
 // room dimensions
 #define ROOM_WIDTH 17
@@ -32,6 +33,7 @@ struct Node
 {
 	Door m_door;
 	NODE_TYPE m_type;
+	int m_graphNodeID;
 };
 
 class Room
@@ -39,6 +41,8 @@ class Room
 private:
 	// reference to game engine
 	GameEngine* pGEngine;
+	// Graph of the room used for pathfinding
+	Graph m_graph;
 	// layout of the room in nodes
 	Node m_layout[ROOM_HEIGHT][ROOM_WIDTH];
 	// textures used by the room's various node types

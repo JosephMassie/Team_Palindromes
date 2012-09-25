@@ -81,6 +81,7 @@
     <ClCompile Include="DX2DEngine.cpp" />
     <ClCompile Include="Dungeon.cpp" />
     <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="Graph.cpp" />
     <ClCompile Include="GraphNode.cpp" />
     <ClCompile Include="HelpfulData.cpp" />
     <ClCompile Include="Input.cpp" />

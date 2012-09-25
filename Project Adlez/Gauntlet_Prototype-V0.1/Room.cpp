@@ -34,9 +34,14 @@ void Room::release()
 // load all textures and set up the room
 void Room::initialize(char* roomFile, ROOM_TYPE type, GameEngine *ref)
 {
+	// set graphics engine reference
 	pGEngine = ref;
+
 	// set room type
 	m_type = type;
+
+	// used late in graph construction, keeps track of the number of "free" 
+
 	// first load textures
 	m_floorTex.initialize(L"floor.png");
 	m_wallBaseTex.initialize(L"wall_base.png");
@@ -44,11 +49,13 @@ void Room::initialize(char* roomFile, ROOM_TYPE type, GameEngine *ref)
 	m_connectTex.initialize(L"wall_connection.png");
 	m_doorTex.initialize(L"door.png");
 	m_lockedTex.initialize(L"locked.png");
+
 	// create fstream opject to load map from file
 	int y = 0;
 	FILE* file;
 	fopen_s(&file, roomFile, "r");
 	char temp = 0;
+
 	// generate room placing doors where appropriate
 	for( int y = 0; y < ROOM_HEIGHT; ++y )
 	{
@@ -85,6 +92,8 @@ void Room::initialize(char* roomFile, ROOM_TYPE type, GameEngine *ref)
 	}
 	// make sure to close the file
 	fclose(file);
+
+	// once the room has been constructed create a graph from it
 }
 
 // draw the room
