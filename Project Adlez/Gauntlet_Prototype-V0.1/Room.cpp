@@ -41,6 +41,7 @@ void Room::initialize(char* roomFile, ROOM_TYPE type, GameEngine *ref)
 	m_type = type;
 
 	// used late in graph construction, keeps track of the number of "free" 
+	int freeSize = 0;
 
 	// first load textures
 	m_floorTex.initialize(L"floor.png");
@@ -74,13 +75,18 @@ void Room::initialize(char* roomFile, ROOM_TYPE type, GameEngine *ref)
 			{
 			case'.': // floor
 				m_layout[y][x].m_type = FLOOR;
+				m_layout[y][x].m_graphNodeID = -1;
+				// increment 
+				freeSize++;
 				break;
 			case '#': // wall
 				m_layout[y][x].m_type = WALL;
+				m_layout[y][x].m_graphNodeID = -1;
 				break;
 			case 'D': // door
 				m_layout[y][x].m_door.locked = false;
 				m_layout[y][x].m_type = DOOR;
+				m_layout[y][x].m_graphNodeID = -1;
 				break;
 			case -1:
 				break;
@@ -94,6 +100,72 @@ void Room::initialize(char* roomFile, ROOM_TYPE type, GameEngine *ref)
 	fclose(file);
 
 	// once the room has been constructed create a graph from it
+	// be sure there is free space to make a graph
+	if(freeSize > 0)
+	{
+		m_graph.initialize(freeSize);
+	}
+
+	// now create a node for each free space
+	for(int y = 0; y < ROOM_HEIGHT; ++y)
+	{
+		for(int x = 0; x < ROOM_WIDTH; ++x)
+		{
+			// if this is a free space make a graph node for it
+			if(m_layout[y][x].m_type == FLOOR)
+			{
+				// calculate the screen position
+				V2DF temp;
+				temp.x = (x * GRID_SIZE) + BORDER + HALF_GRID;
+				temp.y = (y * GRID_SIZE) + BORDER + HALF_GRID;
+				// create the node
+				m_layout[y][x].m_graphNodeID = m_graph.createNode(temp);
+			}
+		}
+	}
+
+	// now create connections for the graph
+	for(int y = 0; y < ROOM_HEIGHT; ++y)
+	{
+		for(int x = 0; x < ROOM_WIDTH; ++x)
+		{
+			int nodeA = m_layout[y][x].m_graphNodeID;
+			// see if there is a node here
+			if(m_layout[y][x].m_graphNodeID >= 0)
+			{
+				// now look at all adjacent nodes
+				for(int yD = -1; yD < 2; ++yD)
+				{
+					// make sure this is within the room
+					if(yD + y >= 0 && yD + y < ROOM_HEIGHT)
+					{
+						for(int xD = -2; xD < 2; ++xD)
+						{
+							// make sure not to check the same node
+							if( !(xD == 0 && yD == 0) )
+							{
+								// make sure this is within the room
+								// and that the node is in the graph
+								// make sure not to iclude itself
+								if(xD + x >= 0 && xD + x < ROOM_WIDTH &&
+									m_layout[yD+y][xD+x].m_graphNodeID >= 0 )
+								{
+									// if diagonal it costs 20
+									int cost = 20;
+									// otherwise cose is 10
+									if( xD == 0 || yD == 0 )
+										cost = 10;
+									int nodeB = m_layout[yD+y][xD+x].m_graphNodeID;
+									// create a oneway connection
+									m_graph.setOneWayConnection(nodeA, nodeB, cost);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 // draw the room
@@ -272,4 +344,18 @@ Room* Room::collOpenDoors(FRect a_rect, V2DF& posNew)
 		}
 	}
 	return 0;
+}
+
+// returns a node of the given location if it exists
+// if the location doesn't have a node null is returned
+GraphNode* Room::getNode(int x, int y)
+{
+	// make sure x and y are within the room...
+	// ..and has a node
+	if(x < 0 || x >= ROOM_WIDTH || y < 0 || y >= ROOM_HEIGHT ||
+		m_layout[y][x].m_graphNodeID < 0)
+		return 0;
+
+	// the location exists return a reference to it
+	return m_graph.getNode( m_layout[y][x].m_graphNodeID );
 }

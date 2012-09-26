@@ -63,6 +63,7 @@ public:
 	void render();
 	void setDoors(Room* doors[4]);
 	Node checkLocation(int x, int y);
+	GraphNode* getNode(int x, int y);
 	void enterRoom(Player * thePlayer);
 	void update(float dT);
 	bool coll_walls(Entity* entity);
