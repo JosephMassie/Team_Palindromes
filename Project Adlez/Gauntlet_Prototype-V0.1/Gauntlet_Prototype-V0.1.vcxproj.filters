@@ -72,6 +72,9 @@
     <ClCompile Include="Graph.cpp">
       <Filter>World</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -121,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="GraphNode.h">
       <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
