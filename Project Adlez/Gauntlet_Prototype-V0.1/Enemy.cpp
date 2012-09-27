@@ -16,7 +16,7 @@ Enemy::~Enemy()
 }
 
 // set stats based on type and set player reference
-void Enemy::initialize(ENEMY_TYPE a_type, Player* a_player, V2DF a_pos, Room * a_room)
+void Enemy::initialize(ENEMY_TYPE a_type, V2DF a_pos)
 {
 	// attack timer
 	atkTimer.active = false;
@@ -31,10 +31,7 @@ void Enemy::initialize(ENEMY_TYPE a_type, Player* a_player, V2DF a_pos, Room * a
 	ultTimer.duration = 2.0f;
 	ultTimer.timePassed = 0.0f;
 	m_pos = a_pos;
-	// set player reference
-	m_player = a_player;
-	// set the room reference
-	m_room = a_room;
+
 	// set collisioin rect
 	FRect temp; temp.bottom = 8; temp.left = -8; temp.right = 8; temp.top = -8;
 	m_boundRect = temp;

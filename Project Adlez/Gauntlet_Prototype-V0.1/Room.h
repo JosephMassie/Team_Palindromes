@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Texture.h"
 #include "Graph.h"
+#include "Enemy.h"
 extern class GameEngine;
 // room dimensions
 #define ROOM_WIDTH 17
@@ -45,6 +46,8 @@ private:
 	Graph m_graph;
 	// layout of the room in nodes
 	Node m_layout[ROOM_HEIGHT][ROOM_WIDTH];
+	// Enemies in the room
+	Enemy m_ghost_1;
 	// textures used by the room's various node types
 	Texture m_floorTex;
 	Texture m_wallBaseTex;

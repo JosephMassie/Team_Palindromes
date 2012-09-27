@@ -29,6 +29,7 @@ void Room::release()
 	m_connectTex.release();
 	m_doorTex.release();
 	m_lockedTex.release();
+	m_ghost_1.release();
 }
 
 // load all textures and set up the room
@@ -50,6 +51,10 @@ void Room::initialize(char* roomFile, ROOM_TYPE type, GameEngine *ref)
 	m_connectTex.initialize(L"wall_connection.png");
 	m_doorTex.initialize(L"door.png");
 	m_lockedTex.initialize(L"locked.png");
+	m_ghost_1.initialize(
+		GHOST, 
+		V2DF((GRID_SIZE * 3 + BORDER + HALF_GRID), 
+			 (GRID_SIZE * 3 + BORDER + HALF_GRID)));
 
 	// create fstream opject to load map from file
 	int y = 0;
@@ -225,6 +230,7 @@ void Room::render()
 			}
 		}
 	}
+	m_ghost_1.render();
 }
 
 // check the given location. if it is enterable return true else return false
