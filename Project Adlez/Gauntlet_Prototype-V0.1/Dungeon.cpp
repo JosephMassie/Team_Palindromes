@@ -73,6 +73,8 @@ void Dungeon::initialise(char* floorName, GameEngine* ref)
 
 	char roomName [LEN] = {0};
 
+	char north = 0, south = 0, east = 0, west = 0;
+
 	// generate the map based on the file info
 	for(int y = 0; y < FLR_SIZE; ++y)
 	{
@@ -85,31 +87,27 @@ void Dungeon::initialise(char* floorName, GameEngine* ref)
 				// now decide the type of room to be loaded
 				// check north side
 				if(y - 1 < 0 || tempLayout[y - 1][x] == '.')
-					roomName[0] = BLANK;
+					north = BLANK;
 				else
-					roomName[0] = N_DOOR;
+					north = N_DOOR;
 				// check south side
 				if(y + 1 >= FLR_SIZE || tempLayout[y + 1][x] == '.')
-					roomName[1] = BLANK;
+					south = BLANK;
 				else
-					roomName[1] = S_DOOR;
+					south = S_DOOR;
 				// check east side
 				if(x + 1 >= FLR_SIZE || tempLayout[y][x + 1] == '.')
-					roomName[2] = BLANK;
+					east = BLANK;
 				else
-					roomName[2] = E_DOOR;
+					east = E_DOOR;
 				// check west side
 				if(x - 1 < 0 || tempLayout[y][x - 1] == '.')
-					roomName[3] = BLANK;
+					west = BLANK;
 				else
-					roomName[3] = W_DOOR;
-				// add file extension
-				roomName[4] = '.';
-				roomName[5] = 't';
-				roomName[6] = 'x';
-				roomName[7] = 't';
-				// make sure there is a null terminater
-				roomName[8] = 0;
+					west = W_DOOR;
+
+				sprintf_s(roomName, "rooms\\%c%c%c%c.txt", north, south, east, west);
+
 				// now load the given room file
 				m_layout[y][x] = new Room(); 
 				m_layout[y][x]->initialize(roomName, BASIC, ref);
@@ -117,12 +115,12 @@ void Dungeon::initialise(char* floorName, GameEngine* ref)
 			case 'S': // start
 				// just load the start room
 				m_layout[y][x] = new Room();
-				m_layout[y][x]->initialize("start.txt", START, ref);
+				m_layout[y][x]->initialize("rooms\\start.txt", START, ref);
 				start = m_layout[y][x];
 				break;
 			case 'E': // end
 				m_layout[y][x] = new Room();
-				m_layout[y][x]->initialize("end.txt", END, ref);
+				m_layout[y][x]->initialize("rooms\\end.txt", END, ref);
 				end = m_layout[y][x];
 				break;
 			case '.': // blank

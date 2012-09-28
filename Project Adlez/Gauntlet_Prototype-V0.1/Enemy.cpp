@@ -15,6 +15,17 @@ Enemy::~Enemy()
 	release();
 }
 
+// calls initialize based on character as type rather than the type enum
+void Enemy::initialize(char a_type, V2DF a_pos)
+{
+	switch(a_type)
+	{
+	case 'G':
+		initialize(GHOST, a_pos);
+		break;
+	};
+}
+
 // set stats based on type and set player reference
 void Enemy::initialize(ENEMY_TYPE a_type, V2DF a_pos)
 {

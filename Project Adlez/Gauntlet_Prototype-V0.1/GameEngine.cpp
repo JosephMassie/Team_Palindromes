@@ -20,7 +20,7 @@ void GameEngine::initialize()
 	// setup GUI
 	guiTest.initialize(L"gui2.png");
 	// setup dungeon
-	Dungeon1.initialise("Dungeon1.txt", this);
+	Dungeon1.initialise("dungeons\\Dungeon1.txt", this);
 
 	// set up buttons
 	// button rect

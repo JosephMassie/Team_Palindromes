@@ -8,7 +8,7 @@ extern class GameEngine;
 // file order NSEW.txt
 // or a _ in a given place such as...
 // N_EW.txt has no south door
-#define LEN		9
+#define LEN		16
 #define BLANK	'_'
 #define N_DOOR	'N'
 #define S_DOOR	'S'
