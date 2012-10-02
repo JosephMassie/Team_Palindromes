@@ -26,7 +26,7 @@ Player::~Player()
 // set player's stats based on given class and load the proper texture
 void Player::initialize(FRect a_rect)
 {
-	m_tex.initialize(L"images/warrior.png");
+	m_tex.initialize(L"warrior.png");
 	// get references to input, sound, and graphics engines
 	pInput = Input::getInstance();
 	pSound = Sound::getInstance();
@@ -57,7 +57,7 @@ void Player::initialize(FRect a_rect)
 	// set the base entity components of the player
 	m_pos = V2DF(GRID_SIZE+HALF_GRID,GRID_SIZE+HALF_GRID);
 	m_angle = 0.0f;
-	m_scale = 0.7f;
+	m_scale = 1.0f;
 	
 	// set up can shoot cool down
 	canShoot.active = false;

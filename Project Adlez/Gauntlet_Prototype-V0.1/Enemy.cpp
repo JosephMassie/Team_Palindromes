@@ -85,7 +85,7 @@ void Enemy::setup()
 	{
 	case GHOST:
 		// set stats to that of a ghost
-		m_tex.initialize(L"images/ghost.png");
+		m_tex.initialize(L"ghost.png");
 		maxHealth = 30;
 		curHeatlh = maxHealth;
 		mSpd = 2;
@@ -96,7 +96,7 @@ void Enemy::setup()
 		break;
 	case BOSS:
 		// set stats to boss
-		m_tex.initialize(L"images/boss.png");
+		m_tex.initialize(L"boss.png");
 		maxHealth = 200;
 		curHeatlh = maxHealth;
 		mSpd = .5;
