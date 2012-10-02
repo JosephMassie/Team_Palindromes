@@ -1,0 +1,48 @@
+﻿Build started 10/2/2012 9:54:45 AM.
+     1>Project "C:\Users\Mike\Documents\GitHub\Team_Palindromes\Project Adlez\Gauntlet_Prototype-V0.1\Gauntlet_Prototype-V0.1.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\Project Adlez.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Player.cpp
+         Player.cpp
+         c:\program files (x86)\microsoft directx sdk (june 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+     1>c:\users\mike\documents\github\team_palindromes\project adlez\gauntlet_prototype-v0.1\player.h(5): warning C4091: 'extern ' : ignored on left of 'Room' when no variable is declared
+     1>c:\users\mike\documents\github\team_palindromes\project adlez\gauntlet_prototype-v0.1\player.h(6): warning C4091: 'extern ' : ignored on left of 'GameEngine' when no variable is declared
+     1>c:\users\mike\documents\github\team_palindromes\project adlez\gauntlet_prototype-v0.1\enemy.h(3): warning C4091: 'extern ' : ignored on left of 'Player' when no variable is declared
+     1>c:\users\mike\documents\github\team_palindromes\project adlez\gauntlet_prototype-v0.1\enemy.h(4): warning C4091: 'extern ' : ignored on left of 'Room' when no variable is declared
+     1>c:\users\mike\documents\github\team_palindromes\project adlez\gauntlet_prototype-v0.1\room.h(7): warning C4091: 'extern ' : ignored on left of 'GameEngine' when no variable is declared
+     1>c:\users\mike\documents\github\team_palindromes\project adlez\gauntlet_prototype-v0.1\dungeon.h(5): warning C4091: 'extern ' : ignored on left of 'GameEngine' when no variable is declared
+     1>c:\users\mike\documents\github\team_palindromes\project adlez\gauntlet_prototype-v0.1\player.cpp(104): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\mike\documents\github\team_palindromes\project adlez\gauntlet_prototype-v0.1\player.cpp(121): warning C4305: 'argument' : truncation from 'double' to 'const float'
+       ManifestResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Mike\Documents\GitHub\Team_Palindromes\Project Adlez\Debug\Project Adlez.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Project Adlez.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Mike\Documents\GitHub\Team_Palindromes\Project Adlez\Debug\Project Adlez.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Mike\Documents\GitHub\Team_Palindromes\Project Adlez\Debug\Project Adlez.lib" /MACHINE:X86 "Debug\Project Adlez.exe.embed.manifest.res"
+         Debug\Button.obj
+         Debug\DX2DEngine.obj
+         Debug\Dungeon.obj
+         Debug\Enemy.obj
+         Debug\GameEngine.obj
+         Debug\Graph.obj
+         Debug\GraphNode.obj
+         Debug\HelpfulData.obj
+         Debug\Input.obj
+         Debug\Player.obj
+         Debug\Room.obj
+         Debug\Sound.obj
+         Debug\Texture.obj
+         Debug\WinMain.obj
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\Project Adlez.exe.embed.manifest" /manifest "Debug\Project Adlez.exe.intermediate.manifest"
+         All outputs are up-to-date.
+       LinkEmbedManifest:
+         All outputs are up-to-date.
+         Gauntlet_Prototype-V0.1.vcxproj -> C:\Users\Mike\Documents\GitHub\Team_Palindromes\Project Adlez\Debug\Project Adlez.exe
+       FinalizeBuildStatus:
+         Deleting file "Debug\Project Adlez.unsuccessfulbuild".
+         Touching "Debug\Project Adlez.lastbuildstate".
+     1>Done Building Project "C:\Users\Mike\Documents\GitHub\Team_Palindromes\Project Adlez\Gauntlet_Prototype-V0.1\Gauntlet_Prototype-V0.1.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.61

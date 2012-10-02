@@ -18,7 +18,7 @@ void GameEngine::initialize()
 	// seed rand
 	seedRand();
 	// setup GUI
-	guiTest.initialize(L"gui2.png");
+	guiTest.initialize(L"images/gui2.png");
 	// setup dungeon
 	Dungeon1.initialise("dungeons\\Dungeon1.txt", this);
 

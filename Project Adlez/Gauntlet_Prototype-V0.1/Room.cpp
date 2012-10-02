@@ -45,12 +45,12 @@ void Room::initialize(char* roomFile, ROOM_TYPE type, GameEngine *ref)
 	int freeSize = 0;
 
 	// first load textures
-	m_floorTex.initialize(L"floor.png");
-	m_wallBaseTex.initialize(L"wall_base.png");
-	m_edgeTex.initialize(L"wall_edge.png");
-	m_connectTex.initialize(L"wall_connection.png");
-	m_doorTex.initialize(L"door.png");
-	m_lockedTex.initialize(L"locked.png");
+	m_floorTex.initialize(L"images/floor.png");
+	m_wallBaseTex.initialize(L"images/wall_base.png");
+	m_edgeTex.initialize(L"images/wall_edge.png");
+	m_connectTex.initialize(L"images/wall_connection.png");
+	m_doorTex.initialize(L"images/door.png");
+	m_lockedTex.initialize(L"images/locked.png");
 
 	// create fstream opject to load map from file
 	int y = 0;

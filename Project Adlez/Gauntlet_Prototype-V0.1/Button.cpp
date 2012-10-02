@@ -8,8 +8,8 @@ void Button::initialize(FRect a_rect, V2DF a_pos)
 {
 	theSound = Sound::getInstance();
 	m_pos = a_pos;
-	m_idleTex.initialize(L"button.png");
-	m_hoverTex.initialize(L"hover.png");
+	m_idleTex.initialize(L"images/button.png");
+	m_hoverTex.initialize(L"images/hover.png");
 	bRect.top = a_rect.top + m_pos.y;
 	bRect.bottom = a_rect.bottom + m_pos.y;
 	bRect.left = a_rect.left + m_pos.x;
