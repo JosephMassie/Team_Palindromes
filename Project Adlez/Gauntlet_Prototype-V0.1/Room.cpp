@@ -33,7 +33,7 @@ void Room::release()
 }
 
 // load all textures and set up the room
-void Room::initialize(char* roomFile, ROOM_TYPE type, GameEngine *ref)
+void Room::initialize(char* roomFile, ROOM_TYPE type, GameEngine *ref, Player* thePlayer)
 {
 	// set graphics engine reference
 	pGEngine = ref;
@@ -99,7 +99,7 @@ void Room::initialize(char* roomFile, ROOM_TYPE type, GameEngine *ref)
 				V2DF position( (x * GRID_SIZE) + BORDER + HALF_GRID, (y * GRID_SIZE) + BORDER + HALF_GRID );
 				// load correct enemy
 				Enemy *tEnemy = new Enemy();
-				tEnemy->initialize(temp, position);
+				tEnemy->initialize(temp, position, thePlayer);
 				m_enemies.add(tEnemy);
 				// create floor
 				m_layout[y][x].m_type = FLOOR;
@@ -379,3 +379,30 @@ GraphNode* Room::getNode(int x, int y)
 	// the location exists return a reference to it
 	return m_graph.getNode( m_layout[y][x].m_graphNodeID );
 }
+
+// returns the current number of enemies in this room
+int Room::EnemyCount() { return m_enemies.size(); }
+
+// returns a pointer to the given enemy
+// if the enemy doesn't exist or the index is out of bounds a null pointer is returned
+Enemy* Room::getEnemy(int a_index)
+{
+	// make sure index is within range
+	if( a_index < 0 || a_index >= m_enemies.size() )
+		return NULL;
+
+	// index is in range return enemy reference
+	return m_enemies.get(a_index);
+}
+
+// returns a reference to the graph node that the player occupies
+GraphNode* Room::getPlayerNode(Player* thePlayer)
+{
+	// convert player position to grid space
+	V2DF temp = thePlayer->getPosition();
+	int x = (temp.x - HALF_GRID - BORDER) / GRID_SIZE;
+	int y = (temp.y - HALF_GRID - BORDER) / GRID_SIZE;
+	// now get a reference to the correct node
+	return getNode(x,y);
+}
+

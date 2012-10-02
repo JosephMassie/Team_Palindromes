@@ -3,6 +3,7 @@
 #define FLR_SIZE 10
 
 extern class GameEngine;
+extern class Player;
 
 // file parsing values
 // file order NSEW.txt
@@ -24,7 +25,7 @@ private:
 public:
 	Dungeon();
 	~Dungeon();
-	void initialise(char* floorFile, GameEngine* ref);
+	void initialise(char* floorFile, GameEngine* ref, Player * thePlayer);
 	void release();
 	Room* getStart();
 };

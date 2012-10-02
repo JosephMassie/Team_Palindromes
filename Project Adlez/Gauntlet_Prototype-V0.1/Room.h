@@ -61,13 +61,16 @@ private:
 public:
 	Room();
 	~Room();
-	void initialize(char* roomFile, ROOM_TYPE type, GameEngine *ref);
+	void initialize(char* roomFile, ROOM_TYPE type, GameEngine *ref, Player * thePlayer);
 	void release();
 	void render();
 	void setDoors(Room* doors[4]);
 	Node checkLocation(int x, int y);
 	GraphNode* getNode(int x, int y);
 	void enterRoom(Player * thePlayer);
+	GraphNode* getPlayerNode(Player * thePlayer);
+	int EnemyCount();
+	Enemy* getEnemy(int a_index);
 	void update(float dT);
 	bool coll_walls(Entity* entity);
 	Room* collOpenDoors(FRect a_rect, V2DF& posNew);

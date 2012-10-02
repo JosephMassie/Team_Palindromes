@@ -16,19 +16,20 @@ Enemy::~Enemy()
 }
 
 // calls initialize based on character as type rather than the type enum
-void Enemy::initialize(char a_type, V2DF a_pos)
+void Enemy::initialize(char a_type, V2DF a_pos, Player* a_player)
 {
 	switch(a_type)
 	{
 	case 'G':
-		initialize(GHOST, a_pos);
+		initialize(GHOST, a_pos, a_player);
 		break;
 	};
 }
 
 // set stats based on type and set player reference
-void Enemy::initialize(ENEMY_TYPE a_type, V2DF a_pos)
+void Enemy::initialize(ENEMY_TYPE a_type, V2DF a_pos, Player* a_player)
 {
+	m_player = a_player;
 	// attack timer
 	atkTimer.active = false;
 	atkTimer.duration = 0.5f;
