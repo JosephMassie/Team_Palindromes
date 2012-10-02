@@ -59,9 +59,6 @@ void Room::initialize(char* roomFile, ROOM_TYPE type, GameEngine *ref)
 	char temp = 0;
 	bool additionalData = false;
 
-	// before the room layout is loaded load the number of monsters and type
-	temp = fgetc(file);
-
 	// generate room placing doors where appropriate
 	for( int y = 0; y < ROOM_HEIGHT; ++y )
 	{
