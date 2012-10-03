@@ -78,5 +78,5 @@ public:
 	// Texture creation functions
 	int createTexture(LPCWSTR file, int length);
 	// Texture rendering functions
-	void renderTexture(int index, V2DF pos, float scale, float angle);
+	void renderTexture(int index, V2DF pos, float scale, float angle, RECT *m_sheetRect);
 };
