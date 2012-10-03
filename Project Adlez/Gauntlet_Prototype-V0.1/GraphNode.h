@@ -24,5 +24,6 @@ public:
 	void initialize(V2DF a_pos);
 	void addNeighbor(GraphNode* a_neighbor, float a_cost);
 	TemplateVector<Connection>* getNeighbors();
+	float Hueristic(GraphNode* other);
 	V2DF getPosition();
 };

@@ -87,6 +87,7 @@
     <ClCompile Include="HelpfulData.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Rock.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -106,6 +107,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="Dungeon.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Rock.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Texture.h" />

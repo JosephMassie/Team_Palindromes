@@ -5,6 +5,7 @@
 #include "Graph.h"
 #include "Enemy.h"
 extern class GameEngine;
+extern class Rock;
 // room dimensions
 #define ROOM_WIDTH 17
 #define ROOM_HEIGHT 13
@@ -58,6 +59,8 @@ private:
 	ROOM_TYPE m_type;
 	// Enemy control variables
 	TemplateVector<Enemy*> m_enemies;
+	// Items in room
+	TemplateVector<Rock> m_rocks;
 public:
 	Room();
 	~Room();

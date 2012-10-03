@@ -75,6 +75,9 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Rock.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
@@ -126,6 +129,9 @@
       <Filter>World</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Rock.h">
       <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>

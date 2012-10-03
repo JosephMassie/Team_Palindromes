@@ -30,6 +30,7 @@ void Room::release()
 	m_doorTex.release();
 	m_lockedTex.release();
 	m_enemies.release();
+	m_rocks.release();
 }
 
 // load all textures and set up the room

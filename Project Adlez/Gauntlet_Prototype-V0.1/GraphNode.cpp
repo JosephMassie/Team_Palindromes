@@ -34,3 +34,13 @@ V2DF GraphNode::getPosition()
 {
 	return m_position;
 }
+
+// returns the hueristic value between the given node and this node
+float GraphNode::Hueristic(GraphNode* other)
+{
+	// make sure other exists
+	if(!other)
+		return 0.0f;
+	// calculate hueristic
+	return other->getPosition().difference( m_position ).length();
+}
