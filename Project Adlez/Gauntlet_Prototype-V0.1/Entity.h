@@ -330,4 +330,6 @@ public:
 		}
 		return temp;
 	}
+
+	float getAngle() { return m_angle; }
 };

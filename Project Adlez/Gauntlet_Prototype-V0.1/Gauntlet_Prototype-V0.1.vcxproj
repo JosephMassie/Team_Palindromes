@@ -86,6 +86,7 @@
     <ClCompile Include="GraphNode.cpp" />
     <ClCompile Include="HelpfulData.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Items.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rock.cpp" />
     <ClCompile Include="Room.cpp" />
@@ -106,6 +107,7 @@
     <ClInclude Include="HelpfulData.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Dungeon.h" />
+    <ClInclude Include="Items.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rock.h" />
     <ClInclude Include="Room.h" />

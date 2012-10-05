@@ -15,6 +15,14 @@ Player::Player()
 	// make sure angle and scale are set to default values
 	m_angle = 0.0f;
 	m_scale = 1.0f;
+
+	//Debugging
+	item1 = SWORD;
+	item2 = SHIELD;
+
+	slot1 = 0;
+	slot2 = 1;
+	hit = 'N';
 }
 
 // Default constructor make sure to call safe release
@@ -63,6 +71,13 @@ void Player::initialize(FRect a_rect)
 	canShoot.active = false;
 	canShoot.duration = aSpd;
 	canShoot.timePassed = 0.0f;
+
+	b1Cldwn.active = false;
+	b1Cldwn.timePassed = 0.0f;
+	b2Cldwn.timePassed = 0.0f;
+	b2Cldwn.active = false;
+
+	pItems = Items(this);
 }
 
 // internal function to deside if the next space is enterable
@@ -89,6 +104,9 @@ void Player::update(float dT)
 // Gather input and update the player accordingly
 void Player::Update(float dT, GameEngine* engine)
 {
+	b1Cldwn.duration = pItems.I1Cldwn;
+	b2Cldwn.duration = pItems.I2Cldwn;
+
 	// if health is bellow 0 end game
 	if(curHealth <= 0)
 	{
@@ -96,6 +114,8 @@ void Player::Update(float dT, GameEngine* engine)
 	}
 	// update can shoot cool down
 	CoolDownCtrl(dT, canShoot);
+	CoolDownCtrl(dT, b1Cldwn);
+	CoolDownCtrl(dT, b2Cldwn);
 
 	// always orientate facing to the mouse pointer
 	V2DF mouse = pInput->getMousePos();
@@ -165,6 +185,69 @@ void Player::getInput()
 		velocity.add( V2DF(GRID_SIZE,0));
 	}
 	
+	//if the buttons are pressed use the appropriate item slot
+	if(pInput->mouseButtonDown(0) && !b2Cldwn.active && !b1Cldwn.active ) {
+		pItems.useItem1(item1);
+		b1Cldwn.active = true;
+	}
+	
+	if(pInput->mouseButtonDown(1) && !b2Cldwn.active && !b1Cldwn.active) {
+		pItems.useItem2(item2);
+		b2Cldwn.active = true;
+	}
+/////////////////////////////////////////////////
+/////    Weapon Switching
+///////////////////////////////////////////////
+	///// Q to cycle through slot 1
+	if(pInput->keyPressed(DIK_Q)&& !b2Cldwn.active && !b1Cldwn.active) {
+		slot1++;
+		if(slot1 == slot2){
+			slot1++;
+		}
+		if(slot1 >= 4) {
+			slot1 = 0;
+			if(slot1 == slot2){
+				slot1++;
+			}
+		}
+		if(slot1 == 0) {
+			item1 = SWORD;
+		}
+		else if(slot1 == 1) {
+			item1 = SHIELD;
+		}
+		else if(slot1 == 2) {
+			item1 = BOOMERANG;
+		}
+		else if(slot1 == 3) {
+			item1 = BOMB;
+		}
+	}
+	// E to cycle throught slot 2
+	if(pInput->keyPressed(DIK_E)&& !b2Cldwn.active && !b1Cldwn.active) {
+		slot2++;
+		if(slot2 == slot1){
+			slot2++;
+		}
+		if(slot2 >= 4) {
+			slot2 = 0;
+			if(slot2 == slot1){
+				slot2++;
+			}
+		}
+		if(slot2 == 0) {
+			item2 = SWORD;
+		}
+		else if(slot2 == 1) {
+			item2 = SHIELD;
+		}
+		else if(slot2 == 2) {
+			item2 = BOOMERANG;
+		}
+		else if(slot2 == 3) {
+			item2 = BOMB;
+		}
+	}
 	// check the the player's current space is an unlocked door
 	// used to get next room
 	V2DF posNew(0,0);
@@ -185,4 +268,83 @@ void Player::getInput()
 bool Player::dmged()
 {
 	return (curHealth < maxHealth);
+}
+
+QUADRANT Player::getQuadrant() {
+	QUADRANT temp;
+	float angle = getAngle();
+	if(angle >= 337.6 && angle < 360 || angle > 0 && angle <= 22.5) {
+		temp = N;
+	}
+	else if(angle <= 337.5 && angle >= 292.6) {
+		temp = NW;
+	}
+	else if(angle <= 292.5 && angle >= 247.6) {
+		temp = W;
+	}
+	else if(angle <= 247.5 && angle >= 202.6) {
+		temp = SW;
+	}
+	else if(angle <= 202.5 && angle >= 157.6) {
+		temp = S;
+	}
+	else if(angle <= 157.5 && angle >= 112.6) {
+		temp = SE;
+	}
+	else if(angle <= 112.5 && angle >= 67.5) {
+		temp = E;
+	}
+	else {
+		temp = NE;
+	}
+	return temp;
+}
+
+void Player::setItem1() {
+	item1 = equipItem1();
+}
+
+void Player::setItem2() {
+	item2 = equipItem2();
+}
+
+ITEM Player::equipItem1() {
+	//equip script
+	ITEM temp;
+	temp = SWORD; //debugging
+	return temp;
+}
+
+ITEM Player::equipItem2() {
+	//equip script
+	ITEM temp;
+	temp = SHIELD; //debugging
+	return temp;
+}
+
+//////////////////////////////////////
+//////Debugging
+/////////////////////////////////////
+void Player::drawText() {
+	char buff[200] = {0};
+	char cd1, cd2;
+	if(b1Cldwn.active) {
+		cd1 = 'Y';
+	}
+	else {
+		cd1 = 'N';
+	}
+	if(b2Cldwn.active) {
+		cd2 = 'Y';
+	}
+	else {
+		cd2 = 'N';
+	}
+	sprintf(buff,"angle: %d \nquad: %d\nItem1 active: %d\nItem2 active: %d\nItem1 type: %d \nItem2 type: %d\nHit : %c",(int)m_angle,getQuadrant(),(int)b1Cldwn.duration,(int)b2Cldwn.duration,(int)slot1,(int)slot2, hit);
+	RECT temp;
+	temp.bottom = 600;
+	temp.top = 0;
+	temp.left = 0;
+	temp.right = 800;
+	gEngine->writeText(buff, temp);
 }
