@@ -100,7 +100,7 @@ void Room::initialize(char* roomFile, ROOM_TYPE type, GameEngine *ref, Player* t
 				V2DF position( (x * GRID_SIZE) + BORDER + HALF_GRID, (y * GRID_SIZE) + BORDER + HALF_GRID );
 				// load correct enemy
 				Enemy *tEnemy = new Enemy();
-				tEnemy->initialize(temp, position, thePlayer);
+				tEnemy->initialize(temp, position, thePlayer, this);
 				m_enemies.add(tEnemy);
 				// create floor
 				m_layout[y][x].m_type = FLOOR;

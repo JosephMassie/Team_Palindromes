@@ -16,19 +16,20 @@ Enemy::~Enemy()
 }
 
 // calls initialize based on character as type rather than the type enum
-void Enemy::initialize(char a_type, V2DF a_pos, Player* a_player)
+void Enemy::initialize(char a_type, V2DF a_pos, Player* a_player, Room* a_room)
 {
 	switch(a_type)
 	{
 	case 'G':
-		initialize(GHOST, a_pos, a_player);
+		initialize(GHOST, a_pos, a_player, a_room);
 		break;
 	};
 }
 
 // set stats based on type and set player reference
-void Enemy::initialize(ENEMY_TYPE a_type, V2DF a_pos, Player* a_player)
+void Enemy::initialize(ENEMY_TYPE a_type, V2DF a_pos, Player* a_player, Room* a_room)
 {
+	m_room = a_room;
 	m_player = a_player;
 	// attack timer
 	atkTimer.active = false;
@@ -60,13 +61,13 @@ void Enemy::initialize(ENEMY_TYPE a_type, V2DF a_pos, Player* a_player)
 	m_left.bottom = m_boundRect.bottom - 3;
 	// top
 	m_top.top = m_boundRect.top;
-	m_top.right = m_boundRect.right;
-	m_top.left = m_boundRect.left;
-	m_top.top = m_boundRect.top + 3;
+	m_top.right = m_boundRect.right - 3;
+	m_top.left = m_boundRect.left + 3;
+	m_top.bottom = m_boundRect.top + 3;
 	// bottom
 	m_bottom.top = m_boundRect.bottom - 3;
-	m_bottom.right = m_boundRect.right;
-	m_bottom.left = m_boundRect.left;
+	m_bottom.right = m_boundRect.right - 3;
+	m_bottom.left = m_boundRect.left + 3;
 	m_bottom.bottom = m_boundRect.bottom;
 	// set type and stats
 	m_type = a_type;
@@ -199,6 +200,11 @@ void Enemy::update(float dT)
 		m_tex.setTint(125,20,20);
 	else
 		m_tex.setTint(255,255,255);
+
+	// check for collisions
+	if( checkForCollisions() )
+		// if any collisions occur resolve them
+		resolveCollisions();
 }
 
 void Enemy::wander()

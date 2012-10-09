@@ -37,8 +37,8 @@ private:
 public:
 	Enemy();
 	~Enemy();
-	void initialize(ENEMY_TYPE a_type, V2DF a_pos, Player* a_player);
-	void initialize(char a_type, V2DF a_pos, Player* a_player);
+	void initialize(ENEMY_TYPE a_type, V2DF a_pos, Player* a_player, Room* a_room);
+	void initialize(char a_type, V2DF a_pos, Player* a_player, Room* a_room);
 	void update(float dT);
 	void takeDmg(float dmg);
 	float checkHealth();
