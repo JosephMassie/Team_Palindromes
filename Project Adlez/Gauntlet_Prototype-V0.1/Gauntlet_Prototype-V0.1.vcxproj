@@ -115,6 +115,39 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="v2d.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="boss.png" />
+    <None Include="bullet.png" />
+    <None Include="button.png" />
+    <None Include="door.png" />
+    <None Include="health_back.png" />
+    <None Include="hover.png" />
+    <None Include="keese.png" />
+    <None Include="lock.png" />
+    <None Include="mage.png" />
+    <None Include="potion.png" />
+    <None Include="rooms\end.txt" />
+    <None Include="rooms\NSEW.txt" />
+    <None Include="rooms\NSE_.txt" />
+    <None Include="rooms\NS_W.txt" />
+    <None Include="rooms\NS__.txt" />
+    <None Include="rooms\N_EW.txt" />
+    <None Include="rooms\N_E_.txt" />
+    <None Include="rooms\N__W.txt" />
+    <None Include="rooms\N___.txt" />
+    <None Include="rooms\start - Copy.txt" />
+    <None Include="rooms\start.txt" />
+    <None Include="rooms\_SEW.txt" />
+    <None Include="rooms\_SE_.txt" />
+    <None Include="rooms\_S_W.txt" />
+    <None Include="rooms\_S__.txt" />
+    <None Include="rooms\__EW.txt" />
+    <None Include="rooms\__E_.txt" />
+    <None Include="rooms\___W.txt" />
+    <None Include="spawner.png" />
+    <None Include="test.png" />
+    <None Include="treasure.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

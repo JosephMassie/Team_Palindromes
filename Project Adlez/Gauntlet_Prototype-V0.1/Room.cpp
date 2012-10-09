@@ -304,6 +304,10 @@ void Room::enterRoom(Player* thePlayer)
 
 void Room::update(float dT)
 {
+	for(int i = 0; i < m_enemies.size(); ++i)
+	{
+		m_enemies.get(i)->update(dT);
+	}
 }
 
 // check if the given entity is colliding with any walls in the room

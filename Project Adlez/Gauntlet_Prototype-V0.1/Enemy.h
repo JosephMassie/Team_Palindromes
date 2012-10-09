@@ -19,9 +19,9 @@ private:
 	float mSpd;
 	float dmg;
 	float aSpd;
+	
 	// this will define the enemies stat line and texture
 	ENEMY_TYPE m_type;
-
 	V2DF steeringForce;
 	float wanderAngle;
 	Player *m_player;
@@ -32,6 +32,8 @@ private:
 	bool moveCheck();
 	void wander();
 	void seek();
+	bool checkForCollisions();
+
 public:
 	Enemy();
 	~Enemy();

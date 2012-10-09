@@ -31,6 +31,12 @@
     <Filter Include="Game Engine">
       <UniqueIdentifier>{b3636e31-aaeb-4157-8cd6-bf840ae4f969}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Sprites">
+      <UniqueIdentifier>{0470fafb-acfb-4b2c-b1b7-bf9439426321}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Rooms">
+      <UniqueIdentifier>{3777b856-12da-47ec-8bc9-4bfefb7de888}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -140,5 +146,100 @@
     <ClInclude Include="Items.h">
       <Filter>Entities</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="treasure.png">
+      <Filter>Resource Files\Sprites</Filter>
+    </None>
+    <None Include="test.png">
+      <Filter>Resource Files\Sprites</Filter>
+    </None>
+    <None Include="boss.png">
+      <Filter>Resource Files\Sprites</Filter>
+    </None>
+    <None Include="bullet.png">
+      <Filter>Resource Files\Sprites</Filter>
+    </None>
+    <None Include="button.png">
+      <Filter>Resource Files\Sprites</Filter>
+    </None>
+    <None Include="door.png">
+      <Filter>Resource Files\Sprites</Filter>
+    </None>
+    <None Include="health_back.png">
+      <Filter>Resource Files\Sprites</Filter>
+    </None>
+    <None Include="hover.png">
+      <Filter>Resource Files\Sprites</Filter>
+    </None>
+    <None Include="keese.png">
+      <Filter>Resource Files\Sprites</Filter>
+    </None>
+    <None Include="lock.png">
+      <Filter>Resource Files\Sprites</Filter>
+    </None>
+    <None Include="mage.png">
+      <Filter>Resource Files\Sprites</Filter>
+    </None>
+    <None Include="potion.png">
+      <Filter>Resource Files\Sprites</Filter>
+    </None>
+    <None Include="spawner.png">
+      <Filter>Resource Files\Sprites</Filter>
+    </None>
+    <None Include="rooms\NS__.txt">
+      <Filter>Resource Files\Rooms</Filter>
+    </None>
+    <None Include="rooms\NS_W.txt">
+      <Filter>Resource Files\Rooms</Filter>
+    </None>
+    <None Include="rooms\NSE_.txt">
+      <Filter>Resource Files\Rooms</Filter>
+    </None>
+    <None Include="rooms\NSEW.txt">
+      <Filter>Resource Files\Rooms</Filter>
+    </None>
+    <None Include="rooms\start - Copy.txt">
+      <Filter>Resource Files\Rooms</Filter>
+    </None>
+    <None Include="rooms\start.txt">
+      <Filter>Resource Files\Rooms</Filter>
+    </None>
+    <None Include="rooms\___W.txt">
+      <Filter>Resource Files\Rooms</Filter>
+    </None>
+    <None Include="rooms\__E_.txt">
+      <Filter>Resource Files\Rooms</Filter>
+    </None>
+    <None Include="rooms\__EW.txt">
+      <Filter>Resource Files\Rooms</Filter>
+    </None>
+    <None Include="rooms\_S__.txt">
+      <Filter>Resource Files\Rooms</Filter>
+    </None>
+    <None Include="rooms\_S_W.txt">
+      <Filter>Resource Files\Rooms</Filter>
+    </None>
+    <None Include="rooms\_SE_.txt">
+      <Filter>Resource Files\Rooms</Filter>
+    </None>
+    <None Include="rooms\_SEW.txt">
+      <Filter>Resource Files\Rooms</Filter>
+    </None>
+    <None Include="rooms\end.txt">
+      <Filter>Resource Files\Rooms</Filter>
+    </None>
+    <None Include="rooms\N___.txt">
+      <Filter>Resource Files\Rooms</Filter>
+    </None>
+    <None Include="rooms\N__W.txt">
+      <Filter>Resource Files\Rooms</Filter>
+    </None>
+    <None Include="rooms\N_E_.txt">
+      <Filter>Resource Files\Rooms</Filter>
+    </None>
+    <None Include="rooms\N_EW.txt">
+      <Filter>Resource Files\Rooms</Filter>
+    </None>
   </ItemGroup>
 </Project>

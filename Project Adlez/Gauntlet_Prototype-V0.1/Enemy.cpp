@@ -89,11 +89,11 @@ void Enemy::setup()
 		m_tex.initialize(L"images/ghost.png");
 		maxHealth = 30;
 		curHeatlh = maxHealth;
-		mSpd = 2;
+		mSpd = 1;
 		dmg = 4;
 		aSpd = 1;
 		atkRange = 24;
-		siteRange = GRID_SIZE * 8;
+		siteRange = GRID_SIZE * 4;
 		break;
 	case BOSS:
 		// set stats to boss
@@ -184,7 +184,11 @@ void Enemy::update(float dT)
 	if (velocity.length() > mSpd * GRID_SIZE)
 		velocity = velocity.normal().product(mSpd * GRID_SIZE);
 	// update position
-	m_pos.add( velocity.product(dT) );
+	/*if(!checkForCollisions())
+	{*/
+		m_pos.add( velocity.product(dT) );
+	/*}*/
+
 	// degrade velocity by 20%
 	velocity.multiply(.8);
 	// change facing based on velocity
@@ -221,4 +225,12 @@ void Enemy::seek()
 	// determine current steering force
 	V2DF steeringForce = target.difference(m_pos);
 	velocity.add(steeringForce);
+}
+
+bool Enemy::checkForCollisions()
+{
+	bool collided = false;
+	// check against all walls
+	collided = m_room->coll_walls(this);
+	return collided;
 }
