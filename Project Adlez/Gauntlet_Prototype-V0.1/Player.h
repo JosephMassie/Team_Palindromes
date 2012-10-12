@@ -8,6 +8,8 @@ extern class GameEngine;
 
 enum QUADRANT {N, NE, E, SE, S, SW, W, NW};
 
+
+
 class Player : public Entity
 {
 private:
@@ -31,6 +33,9 @@ private:
 	ClDwn b1Cldwn;
 	ClDwn b2Cldwn;
 
+	// for UI
+	STATUS status;
+
 public:
 	Player();
 	~Player();
@@ -42,6 +47,9 @@ public:
 	Room* getCurrentRoom();
 	void takeDmg(float a_dmg);
 	bool dmged();
+
+	// UI
+	STATUS getStatus();
 
 	void drawText();
 

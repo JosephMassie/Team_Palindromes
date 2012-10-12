@@ -9,6 +9,19 @@
 // RIGHT, LEFT, TOP, BOT = corresponding side was collided 
 enum SIDE {NONE,RIGHT,LEFT,TOP,BOT,MAIN};
 
+// UI placement
+#define UI_LEFT 640
+#define UI_TOP 60
+
+// UI data
+// used to pass data in bulk from Player & UI
+struct STATUS
+{
+	float health;
+	int slot1;
+	int slot2;
+};
+
 // used to save collisions that have occured
 struct Collision
 {

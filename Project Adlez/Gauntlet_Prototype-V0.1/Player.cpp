@@ -7,8 +7,8 @@
 Player::Player()
 {
 	// set stats to 0
-	maxHealth = 100;
-	curHealth = 100;
+	maxHealth = 10;
+	curHealth = 10;
 	mSpd = 6;
 	dmg = 15;
 	aSpd = .5;
@@ -263,6 +263,18 @@ void Player::getInput()
 		m_pos.x = (posNew.x * GRID_SIZE) + HALF_GRID + BORDER;
 		m_pos.y = (posNew.y * GRID_SIZE) + HALF_GRID + BORDER;
 	}
+
+	// ................ UI Debug
+	// Press 'F' to lower health
+	if(pInput->keyPressed(DIK_F) && curHealth!=0)
+	{
+		curHealth--;
+	}
+	// Press 'G' to increase health
+	if(pInput->keyPressed(DIK_G) && curHealth<maxHealth)
+	{
+		curHealth++;
+	}
 }
 
 bool Player::dmged()
@@ -347,4 +359,15 @@ void Player::drawText() {
 	temp.left = 0;
 	temp.right = 800;
 	gEngine->writeText(buff, temp);
+}
+
+//////////////////////////
+// UI specific
+//////////////////////////
+STATUS Player::getStatus()
+{
+	status.health = curHealth;
+	status.slot1 = slot1;
+	status.slot2 = slot2;
+	return status;
 }

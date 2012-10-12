@@ -46,7 +46,7 @@ void Room::initialize(char* roomFile, ROOM_TYPE type, GameEngine *ref, Player* t
 	int freeSize = 0;
 
 	// first load textures
-	m_floorTex.initialize(L"images/floor.png");
+	m_floorTex.initialize(L"images/floor_dirt.png");
 	m_wallBaseTex.initialize(L"images/wall_base.png");
 	m_edgeTex.initialize(L"images/wall_edge.png");
 	m_connectTex.initialize(L"images/wall_connection.png");

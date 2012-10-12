@@ -18,7 +18,7 @@ void GameEngine::initialize()
 	// seed rand
 	seedRand();
 	// setup GUI
-	guiTest.initialize(L"images/gui2.png");
+	guiTest.initialize(L"images/gui3.png", 2, 1, 2, 32);
 	// setup dungeon
 	Dungeon1.initialise("dungeons\\Dungeon1.txt", this, &thePlayer);
 
@@ -42,6 +42,8 @@ void GameEngine::initialize()
 	// death
 	main.initialize(btemp, V2DF(400,GRID_SIZE*13) );
 	main.setText("MAIN\nMENU", 9);
+	// UI
+	UI.initialize();
 }
 
 // update all game components
@@ -93,6 +95,9 @@ void GameEngine::update(float dT)
 	case GAME:
 		thePlayer.getCurrentRoom()->update(dT);
 		thePlayer.Update(dT,this);
+		// UI update
+		// ..gets current player health
+		UI.update(thePlayer.getStatus());
 		break;
 	case VICTORY:
 	case DEAD:
@@ -131,13 +136,22 @@ void GameEngine::render()
 			{
 				float drawX = x * GRID_SIZE + HALF_GRID;
 				float drawY = y * GRID_SIZE + HALF_GRID;
-				guiTest.draw(V2DF(drawX,drawY),0.0,1.0f);
+				if(x>18 && x<24 && y>0 && y<7)
+				{
+					guiTest.draw(0, V2DF(drawX,drawY),0.0,1.0f);
+				} 
+				else 
+				{
+					guiTest.draw(1, V2DF(drawX,drawY),0.0,1.0f);
+				}
 			}
 		}
 		// render the room the player is currently in
 		thePlayer.getCurrentRoom()->render();
 		// render the players
 		thePlayer.render();
+		// render UI
+		UI.render();
 		break;
 	case VICTORY:
 	case DEAD:
@@ -167,6 +181,7 @@ void GameEngine::drawText()
 		break;
 	case GAME:
 		thePlayer.drawText();
+		UI.drawText();
 		break;
 	case VICTORY:
 		DX2DEngine::getInstance()->writeCenterText("YOU WIN!",screen);

@@ -3,6 +3,7 @@
 #include "Room.h"
 #include "Dungeon.h"
 #include "Button.h"
+#include "UserInterface.h"
 
 enum G_State {MENU, CLASS, GAME, DEAD, VICTORY};
 
@@ -23,6 +24,9 @@ private:
 	Button mage;
 	// death buttons
 	Button main;
+	// UI
+	UserInterface UI;
+
 public:
 	GameEngine();
 	~GameEngine();

@@ -37,6 +37,9 @@
     <Filter Include="Resource Files\Rooms">
       <UniqueIdentifier>{3777b856-12da-47ec-8bc9-4bfefb7de888}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HUD">
+      <UniqueIdentifier>{cadb5f3f-2440-4843-ba82-742ea6af2e3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -86,6 +89,18 @@
     </ClCompile>
     <ClCompile Include="Items.cpp">
       <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Gem.cpp">
+      <Filter>HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="HP.cpp">
+      <Filter>HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInterface.cpp">
+      <Filter>HUD</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +160,18 @@
     </ClInclude>
     <ClInclude Include="Items.h">
       <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Gem.h">
+      <Filter>HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="HP.h">
+      <Filter>HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInterface.h">
+      <Filter>HUD</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -40,8 +40,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\MikeAndMaria\Desktop\FMOD Programmers API Windows\api\inc;C:\Users\MikeAndMaria\Desktop\DirectX\Include;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Programmers API Windows\api\inc;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\MikeAndMaria\Desktop\FMOD Programmers API Windows\api\lib;C:\Users\MikeAndMaria\Desktop\DirectX\Lib\x86;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Programmers API Windows\api\lib;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Include;E:\api\inc;C:\Users\MikeAndMaria\Desktop\FMOD Programmers API Windows\api\inc;C:\Users\MikeAndMaria\Desktop\DirectX\Include;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Programmers API Windows\api\inc;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Lib\x86;E:\api\lib;C:\Users\MikeAndMaria\Desktop\FMOD Programmers API Windows\api\lib;C:\Users\MikeAndMaria\Desktop\DirectX\Lib\x86;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Programmers API Windows\api\lib;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -82,16 +82,20 @@
     <ClCompile Include="Dungeon.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="Gem.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="GraphNode.cpp" />
     <ClCompile Include="HelpfulData.cpp" />
+    <ClCompile Include="HP.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Rock.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="UserInterface.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -102,17 +106,21 @@
     <ClInclude Include="framework\datastruct\templatearray.h" />
     <ClInclude Include="framework\datastruct\templatevector.h" />
     <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="Gem.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="GraphNode.h" />
     <ClInclude Include="HelpfulData.h" />
+    <ClInclude Include="HP.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Dungeon.h" />
+    <ClInclude Include="Inventory.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Rock.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="UserInterface.h" />
     <ClInclude Include="v2d.h" />
   </ItemGroup>
   <ItemGroup>
