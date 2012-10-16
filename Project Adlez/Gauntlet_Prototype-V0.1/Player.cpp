@@ -157,8 +157,8 @@ Room* Player::getCurrentRoom()
 
 void Player::takeDmg(float a_dmg)
 {
-	pSound->playSound(HIT);
-	curHealth-=a_dmg;
+//	pSound->playSound(HIT);
+//	curHealth-=a_dmg;
 }
 
 void Player::getInput()

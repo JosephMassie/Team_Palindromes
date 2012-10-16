@@ -11,8 +11,7 @@ struct Astar
 {
 	float dist_between(GraphNode * a, GraphNode * b)
 	{
-	//	return a->getArea().getCenter().distance(b->getArea().getCenter());
-		return 15;
+		return a->Hueristic(b);
 	}
 
 	float heuristic_cost_estimate(GraphNode * start, GraphNode * goal)

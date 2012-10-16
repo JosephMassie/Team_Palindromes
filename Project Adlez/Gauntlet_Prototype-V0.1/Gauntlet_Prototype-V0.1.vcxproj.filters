@@ -173,6 +173,9 @@
     <ClInclude Include="UserInterface.h">
       <Filter>HUD</Filter>
     </ClInclude>
+    <ClInclude Include="astar.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="treasure.png">

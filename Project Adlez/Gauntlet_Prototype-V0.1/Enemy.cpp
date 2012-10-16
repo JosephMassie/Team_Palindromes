@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include "Room.h"
 #include "Player.h"
+#include "astar.h"
 
 // set pointers to 0
 Enemy::Enemy()
@@ -13,6 +14,7 @@ Enemy::Enemy()
 // make sure safer release is called
 Enemy::~Enemy()
 {
+	m_nodeTex.release();
 	release();
 }
 
@@ -81,6 +83,9 @@ void Enemy::initialize(ENEMY_TYPE a_type, V2DF a_pos, Player* a_player, Room* a_
 	steeringForce = V2DF(0,0);
 	wanderAngle = randomInt(1,360);
 	path.clear();
+
+	// debug stuff
+	m_nodeTex.initialize(L"images/node.png");
 }
 
 void Enemy::setup()
@@ -147,20 +152,20 @@ void Enemy::update(float dT)
 		{
 			bool wandering = false;
 			// see if the player is in sight range
-			if (m_player->getPosition().isWithin(siteRange,m_pos))
-			{
+		//	if (m_player->getPosition().isWithin(siteRange,m_pos))
+		//	{
 				findPath();
 				seek(m_player->getPosition());
-			}
-			else
-			{
-				wander();
-				wandering = true;
-			}
+		//	}
+		//	else
+		//	{
+		//		wander();
+		//		wandering = true;
+		//	}
 			// try and avoid nearby walls
 			V2DF avoid(0,0);
-			if(wandering)
-				velocity.add(steeringForce);
+		//	if(wandering)
+		//		velocity.add(steeringForce);
 			
 		}
 	}
@@ -262,4 +267,12 @@ GraphNode * Enemy::getMyPos()
 	int tempY = ((m_pos.y - HALF_GRID - BORDER) / GRID_SIZE);
 	GraphNode * currentNode = m_room->getNode(tempX, tempY);
 	return currentNode;
+}
+
+void Enemy::render()
+{
+	m_tex.draw(m_pos, m_angle, m_scale);
+	// draw all nodes in the current path
+	for(int i = 0; i < path.size(); ++i)
+		m_nodeTex.draw( path.get(i)->getPosition(), 0.0f, 1.0f);
 }
