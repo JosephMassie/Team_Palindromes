@@ -7,6 +7,7 @@ Enemy::Enemy()
 {
 	m_player = 0;
 	m_room = 0;
+
 }
 
 // make sure safer release is called
@@ -79,6 +80,7 @@ void Enemy::initialize(ENEMY_TYPE a_type, V2DF a_pos, Player* a_player, Room* a_
 	velocity = V2DF(0.0f,0.0f);
 	steeringForce = V2DF(0,0);
 	wanderAngle = randomInt(1,360);
+	path.clear();
 }
 
 void Enemy::setup()
@@ -125,7 +127,7 @@ float Enemy::checkHealth()
 {
 	return curHeatlh;
 }
-
+	
 void Enemy::update(float dT)
 {
 	CoolDownCtrl(dT,atkTimer);
@@ -146,7 +148,10 @@ void Enemy::update(float dT)
 			bool wandering = false;
 			// see if the player is in sight range
 			if (m_player->getPosition().isWithin(siteRange,m_pos))
-				seek();
+			{
+				findPath();
+				seek(m_player->getPosition());
+			}
 			else
 			{
 				wander();
@@ -176,7 +181,7 @@ void Enemy::update(float dT)
 			aniTimer.active = true;
 		}
 		// always move towards the player
-		seek();
+		seek(m_player->getPosition());
 		V2DF avoid(0,0);
 		
 	}
@@ -220,10 +225,19 @@ void Enemy::wander()
 	// set steering force equal to that vector
 	steeringForce = V2DF( cos(angleRad), sin(angleRad) ).product( 10 );
 }
-
-void Enemy::seek()
+void Enemy::findPath()
 {
-	V2DF target = m_player->getPosition();
+	GraphNode* n = getMyPos();
+	V2DF pos = this->m_pos;
+	if(n)
+	{
+		pathFinder.findPath(n, m_room->getPlayerNode(m_player), &path);
+	}
+	//path.pull();
+}
+void Enemy::seek(V2DF target)
+{
+	
 
 	// go towards target
 	// determine current velocity
@@ -239,4 +253,13 @@ bool Enemy::checkForCollisions()
 	// check against all walls
 	collided = m_room->coll_walls(this);
 	return collided;
+}
+
+GraphNode * Enemy::getMyPos()
+{
+
+	int tempX = ((m_pos.x - HALF_GRID - BORDER) / GRID_SIZE);
+	int tempY = ((m_pos.y - HALF_GRID - BORDER) / GRID_SIZE);
+	GraphNode * currentNode = m_room->getNode(tempX, tempY);
+	return currentNode;
 }

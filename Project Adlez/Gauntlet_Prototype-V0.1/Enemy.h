@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "astar.h"
 extern class Player;
 extern class Room;
 
@@ -23,16 +24,20 @@ private:
 	// this will define the enemies stat line and texture
 	ENEMY_TYPE m_type;
 	V2DF steeringForce;
+	Astar pathFinder;
 	float wanderAngle;
 	Player *m_player;
+	TemplateVector<GraphNode*> path;
 	// reference the the room
 	Room * m_room;
 	// internal function used to set up stats based on enemy type
 	void setup();
 	bool moveCheck();
 	void wander();
-	void seek();
+	void seek(V2DF target);
 	bool checkForCollisions();
+	GraphNode * getMyPos();
+	void findPath();
 
 public:
 	Enemy();
@@ -42,4 +47,5 @@ public:
 	void update(float dT);
 	void takeDmg(float dmg);
 	float checkHealth();
+
 };

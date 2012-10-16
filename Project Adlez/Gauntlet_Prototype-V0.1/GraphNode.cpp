@@ -13,16 +13,23 @@ void GraphNode::release()
 // setup node at given position
 void GraphNode::initialize(V2DF a_pos)
 {
+	totalNeighbors = 0;
 	m_position = a_pos;
 }
 
 // create a connection with the given neighbor and add it to the list
 void GraphNode::addNeighbor(GraphNode* a_neighbor, float a_cost)
 {
+	totalNeighbors++;
 	Connection temp;
 	temp.neighbor = a_neighbor;
 	temp.cost = a_cost;
 	m_neighbors.add(temp);
+
+}
+int GraphNode::getNeighborCount()
+{
+	return totalNeighbors;
 }
 
 TemplateVector<Connection>* GraphNode::getNeighbors()
