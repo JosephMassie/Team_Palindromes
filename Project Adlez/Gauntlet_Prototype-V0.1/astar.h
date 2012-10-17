@@ -17,7 +17,7 @@ struct Astar
 	float heuristic_cost_estimate(GraphNode * start, GraphNode * goal)
 	{
 		// arbitrarily large number
-		return dist_between(start, goal)*10;
+		return dist_between(start, goal)*100;
 	}
 
 	GraphNode * getLowestFrom(TemplateVector<GraphNode*> & a_openSet, TemplateHashMap<GraphNode*, float> & a_scoring)

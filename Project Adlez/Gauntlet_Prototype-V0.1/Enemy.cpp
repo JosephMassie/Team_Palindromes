@@ -100,7 +100,7 @@ void Enemy::setup()
 		mSpd = 1;
 		dmg = 4;
 		aSpd = 1;
-		atkRange = 24;
+		atkRange = 100;
 		siteRange = GRID_SIZE * 4;
 		break;
 	case BOSS:
@@ -125,7 +125,7 @@ void Enemy::setup()
 
 void Enemy::takeDmg(float a_dmg)
 {
-	curHeatlh-=a_dmg;
+	curHeatlh -= a_dmg;
 }
 
 float Enemy::checkHealth()
@@ -139,6 +139,13 @@ void Enemy::update(float dT)
 	CoolDownCtrl(dT,aniTimer);
 	CoolDownCtrl(dT,ultTimer);
 	// if not boss work normally
+	static bool init = true;
+	if(init)
+	{
+		playerPos = m_player->getPosition();
+		findPath();
+		init = false;
+	}
 	if(m_type != BOSS)
 	{
 		// check if player is in attack range
@@ -151,22 +158,11 @@ void Enemy::update(float dT)
 		else if (!m_player->getPosition().isWithin(atkRange, m_pos))
 		{
 			bool wandering = false;
-			// see if the player is in sight range
-		//	if (m_player->getPosition().isWithin(siteRange,m_pos))
-		//	{
+			if(playerPos != m_player->getPosition() || m_pos != path.get(0)->getPosition())
+			{
 				findPath();
-				seek(m_player->getPosition());
-		//	}
-		//	else
-		//	{
-		//		wander();
-		//		wandering = true;
-		//	}
-			// try and avoid nearby walls
-			V2DF avoid(0,0);
-		//	if(wandering)
-		//		velocity.add(steeringForce);
-			
+			}
+			seek(m_player->getPosition());
 		}
 	}
 	else
@@ -242,13 +238,17 @@ void Enemy::findPath()
 }
 void Enemy::seek(V2DF target)
 {
-	
-
 	// go towards target
 	// determine current velocity
 	//V2DF vEnd = m_pos.sum(velocity);
 	// determine current steering force
-	V2DF steeringForce = target.difference(m_pos);
+
+	static int iterator = 0;
+	if(m_pos == path.get(iterator)->getPosition())
+	{
+		iterator++;
+	}
+	V2DF steeringForce = target.difference(path.get(iterator)->getPosition());
 	velocity.add(steeringForce);
 }
 

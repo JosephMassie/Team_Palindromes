@@ -24,6 +24,7 @@ private:
 	// this will define the enemies stat line and texture
 	ENEMY_TYPE m_type;
 	V2DF steeringForce;
+	V2DF playerPos;
 	Astar pathFinder;
 	float wanderAngle;
 	Player *m_player;
