@@ -60,3 +60,11 @@ RECT fRectToRECT(FRect a_rect)
 	temp.right = a_rect.right;
 	return temp;
 }
+
+bool colliding(V2DF point, FRect rect)
+{
+	if( point.x <= rect.right && point.x >= rect.left 
+		&& point.y <= rect.bottom && point.y >= rect.top )
+		return true;
+	return false;
+}

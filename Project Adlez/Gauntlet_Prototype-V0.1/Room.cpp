@@ -157,7 +157,7 @@ void Room::initialize(char* roomFile, ROOM_TYPE type, GameEngine *ref, Player* t
 					// make sure this is within the room
 					if(yD + y >= 0 && yD + y < ROOM_HEIGHT)
 					{
-						for(int xD = -2; xD < 2; ++xD)
+						for(int xD = -1; xD < 2; ++xD)
 						{
 							// make sure not to check the same node
 							if( !(xD == 0 && yD == 0) )
@@ -246,6 +246,8 @@ void Room::render()
 	
 	for(int i = 0; i < m_enemies.size(); ++i)
 		m_enemies.get(i)->render();
+
+	m_graph.render();
 }
 
 // check the given location. if it is enterable return true else return false
@@ -403,11 +405,32 @@ Enemy* Room::getEnemy(int a_index)
 // returns a reference to the graph node that the player occupies
 GraphNode* Room::getPlayerNode(Player* thePlayer)
 {
-	// convert player position to grid space
-	V2DF temp = thePlayer->getPosition();
-	int x = (temp.x - HALF_GRID - BORDER) / GRID_SIZE;
-	int y = (temp.y - HALF_GRID - BORDER) / GRID_SIZE;
+	// check which floor tile the player is in
+	V2DF playerPos = thePlayer->getPosition();
+	for(int y = 0; y < ROOM_HEIGHT; ++y)
+	{
+		for(int x = 0; x < ROOM_WIDTH; ++x)
+		{
+			// only check if it is a floor tile
+			if( m_layout[y][x].m_type == FLOOR )
+			{
+				// calculate this tile's rect
+				V2DF temp;
+				temp.x = (x * GRID_SIZE) + BORDER + HALF_GRID;
+				temp.y = (y * GRID_SIZE) + BORDER + HALF_GRID;
+				FRect bRect;
+				bRect.top = temp.y - 16.0f;
+				bRect.left = temp.x - 16.0f;
+				bRect.right = temp.x + 16.0f;
+				bRect.bottom = temp.y + 16.0f;
+				
+				// check if the player is in this node
+				if( colliding(playerPos, bRect) )
+					return getNode(x,y);
+			}
+		}
+	}
 	// now get a reference to the correct node
-	return getNode(x,y);
+	
 }
 

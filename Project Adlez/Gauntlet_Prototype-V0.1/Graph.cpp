@@ -25,11 +25,19 @@ void Graph::release()
 
 	// now release the list of nodes itself
 	m_nodes.release();
+
+	// release the debug texture
+	m_nodeTex.release();
+	m_neighborTex.release();
 }
 
 // set up the graph to be the given size
 void Graph::initialize(int a_size)
 {
+	// setup debug texture
+	m_nodeTex.initialize(L"images/graph.png");
+	m_neighborTex.initialize(L"images/neighbor.png");
+
 	// setup graph to be the given size
 	m_size = a_size;
 
@@ -112,4 +120,26 @@ void Graph::setTwoWayConnection(int a_start, int a_end, int a_cost)
 	setOneWayConnection(a_start, a_end, a_cost);
 	// set second connection
 	setOneWayConnection(a_end, a_start, a_cost);
+}
+
+// Used for debugging
+void Graph::render()
+{
+	for(int i = 0; i < m_nodes.size(); ++i)
+	{
+		V2DF parent = m_nodes.get(i)->getPosition();
+		V2DF dif(0.0f,0.0f);
+		V2DF child(0.0f,0.0f);
+		m_nodeTex.draw( parent, 0.0f, 1.0f );
+		// draw its neighbors
+		float angle = 0.0f;
+		TemplateVector<Connection>* m_neighbors = m_nodes.get(i)->getNeighbors();
+		for(int j = 0; j < m_neighbors->size(); ++j)
+		{
+			child = m_neighbors->get(j).neighbor->getPosition();
+			dif = child.difference(parent);
+			angle = atan2f(dif.y,dif.x)*(180.0f/V2D_PI) + 90.0f;
+			m_neighborTex.draw( parent, angle, 1.0f );
+		}
+	}
 }

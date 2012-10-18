@@ -43,6 +43,9 @@ void seedRand();
 // returns true if the two rects are colliding
 bool colliding(FRect r1, FRect r2);
 
+// returns true if the points lies within the rect
+bool colliding(V2DF point, FRect rect);
+
 // returns a random float between the two given numbers
 float randomFloat(float min, float max);
 
