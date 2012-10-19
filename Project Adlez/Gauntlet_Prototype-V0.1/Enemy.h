@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "astar.h"
+#include "Animation.h"
 extern class Player;
 extern class Room;
 
@@ -42,6 +43,9 @@ private:
 
 	// debug stuff
 	Texture m_nodeTex;
+
+	// animation
+	Animation ghostAnim;
 
 public:
 	Enemy();

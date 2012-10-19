@@ -26,6 +26,9 @@ private:
 	Button main;
 	// UI
 	UserInterface UI;
+	Texture bg;
+	Texture adlez;
+	Texture gamebg;
 
 public:
 	GameEngine();

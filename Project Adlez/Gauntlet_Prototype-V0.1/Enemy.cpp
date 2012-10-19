@@ -77,7 +77,7 @@ void Enemy::initialize(ENEMY_TYPE a_type, V2DF a_pos, Player* a_player, Room* a_
 	setup();
 	// set scale and rotation to defaults
 	m_angle = 0.0f;
-	m_scale = 1.0f;
+	m_scale = 0.7f;
 	// set control variables
 	velocity = V2DF(0.0f,0.0f);
 	steeringForce = V2DF(0,0);
@@ -94,7 +94,8 @@ void Enemy::setup()
 	{
 	case GHOST:
 		// set stats to that of a ghost
-		m_tex.initialize(L"images/ghost.png");
+		m_tex.initialize(L"images/ghost_anim.png", 8, 2, 4, 32);
+		ghostAnim.initialize(&m_tex, 40.0f);
 		maxHealth = 30;
 		curHeatlh = maxHealth;
 		mSpd = 2;
@@ -135,6 +136,9 @@ float Enemy::checkHealth()
 	
 void Enemy::update(float dT)
 {
+	// animation
+	ghostAnim.update(dT);
+
 	CoolDownCtrl(dT,atkTimer);
 	CoolDownCtrl(dT,aniTimer);
 	CoolDownCtrl(dT,ultTimer);
@@ -280,7 +284,8 @@ GraphNode * Enemy::getMyPos()
 
 void Enemy::render()
 {
-	m_tex.draw(m_pos, m_angle, m_scale);
+	//m_tex.draw(m_pos, m_angle, m_scale);
+	ghostAnim.render(m_pos, m_angle, m_scale);
 	// draw all nodes in the current path
 	/*for(int i = 0; i < path.size(); ++i)
 		m_nodeTex.draw( path.get(i)->getPosition(), 0.0f, 1.0f);*/

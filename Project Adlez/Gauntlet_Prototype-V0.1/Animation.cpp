@@ -59,11 +59,11 @@ void Animation::start(bool reset)
 {
 	play = true;
 	m_frameSwitch.active = true;
-	m_frameSwitch.timePassed = 0.0f;
 	if(reset)
 	{
 		begining = true;
 		currentFrame = 0;
+		m_frameSwitch.timePassed = 0.0f;
 	}
 }
 

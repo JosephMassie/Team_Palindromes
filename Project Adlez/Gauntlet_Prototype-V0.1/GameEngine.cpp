@@ -44,6 +44,9 @@ void GameEngine::initialize()
 	main.setText("MAIN\nMENU", 9);
 	// UI
 	UI.initialize();
+	bg.initialize(L"images/bg.png");
+	adlez.initialize(L"images/adlez.png");
+	gamebg.initialize(L"images/gamebg.png");
 }
 
 // update all game components
@@ -52,7 +55,7 @@ void GameEngine::update(float dT)
 	switch(m_state)
 	{
 	case MENU:
-		// start 
+		// start
 		start.update(dT);
 		if(start.clicked())
 			m_state = CLASS;
@@ -120,6 +123,8 @@ void GameEngine::render()
 	switch(m_state)
 	{
 	case MENU:
+		bg.draw(V2DF(340, 170), 0.0f, 1.0f);
+		adlez.draw(V2DF(400, 100), 0.0f, 1.0f);
 		start.render();
 		quit.render();
 		break;
@@ -129,6 +134,7 @@ void GameEngine::render()
 		main.render();
 		break;
 	case GAME:
+		gamebg.draw(V2DF(312, 170), 0.0f, 0.78f);
 		// render GUI background
 		for(int y = 0; y < 18; y++)
 		{
@@ -138,11 +144,13 @@ void GameEngine::render()
 				float drawY = y * GRID_SIZE + HALF_GRID;
 				if(x>18 && x<24 && y>0 && y<7)
 				{
+					// draw UI background
 					guiTest.draw(0, V2DF(drawX,drawY),0.0,1.0f);
 				} 
 				else 
 				{
-					guiTest.draw(1, V2DF(drawX,drawY),0.0,1.0f);
+					// draw brick background
+					//guiTest.draw(1, V2DF(drawX,drawY),0.0,1.0f);
 				}
 			}
 		}
@@ -170,7 +178,6 @@ void GameEngine::drawText()
 	switch(m_state)
 	{
 	case MENU:
-		DX2DEngine::getInstance()->writeCenterText("Project Adlez",screen);
 		start.drawText();
 		quit.drawText();
 		break;
@@ -200,6 +207,9 @@ void GameEngine::release()
 	guiTest.release();
 	thePlayer.release();
 	Dungeon1.release();
+	bg.release();
+	adlez.release();
+	gamebg.release();
 }
 
 bool GameEngine::isRunning()

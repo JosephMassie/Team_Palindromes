@@ -34,7 +34,8 @@ Player::~Player()
 // set player's stats based on given class and load the proper texture
 void Player::initialize(FRect a_rect)
 {
-	m_tex.initialize(L"images/warrior.png");
+	m_tex.initialize(L"images/adlez_walking.png", 8, 2, 4, 32);
+	playerAnim.initialize(&m_tex, 40.0f);
 	// get references to input, sound, and graphics engines
 	pInput = Input::getInstance();
 	pSound = Sound::getInstance();
@@ -65,7 +66,7 @@ void Player::initialize(FRect a_rect)
 	// set the base entity components of the player
 	m_pos = V2DF(GRID_SIZE+HALF_GRID,GRID_SIZE+HALF_GRID);
 	m_angle = 0.0f;
-	m_scale = 0.7f;
+	m_scale = 0.8f;
 	
 	// set up can shoot cool down
 	canShoot.active = false;
@@ -87,14 +88,14 @@ bool Player::checkForCollisions()
 	bool collided = false;
 	// check against all walls
 	collided = m_curRoom->coll_walls(this);
-	collided = collided | m_curRoom->coll_enemies(this);
 	return collided;
 }
 
 void Player::render()
 {
 	// render player
-	m_tex.draw(m_pos, m_angle, m_scale);
+//	m_tex.draw(m_pos, m_angle, m_scale);
+	playerAnim.render(m_pos, m_angle, m_scale);
 }
 
 // used to keep inheritance happy
@@ -144,6 +145,17 @@ void Player::Update(float dT, GameEngine* engine)
 	// now check if anything has collided
 	checkForCollisions();
 	resolveCollisions(); // if a collision occured resolve it
+
+	// update player animation
+	playerAnim.update(dT);
+	if(velocity.isLessThan(.5))
+	{
+		playerAnim.stop(true);
+	}
+	else
+	{
+		playerAnim.start(false);
+	}
 }
 
 void Player::setCurrentRoom(Room* a_room)

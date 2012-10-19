@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "Sound.h"
 #include "Items.h"
+#include "Animation.h"
 extern class Room;
 extern class GameEngine;
 
@@ -35,6 +36,10 @@ private:
 
 	// for UI
 	STATUS status;
+
+	// animated player
+	Animation playerAnim;
+	bool start;
 
 public:
 	Player();
