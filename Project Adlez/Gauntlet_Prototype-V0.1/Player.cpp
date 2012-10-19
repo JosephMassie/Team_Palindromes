@@ -87,6 +87,7 @@ bool Player::checkForCollisions()
 	bool collided = false;
 	// check against all walls
 	collided = m_curRoom->coll_walls(this);
+	collided = collided | m_curRoom->coll_enemies(this);
 	return collided;
 }
 

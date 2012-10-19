@@ -465,3 +465,35 @@ GraphNode* Room::getPlayerNode(Player* thePlayer)
 	return 0;
 }
 
+// collide with all enemies on the map
+// return true if an enemy has been collided with
+bool Room::coll_enemies(Entity* entity)
+{
+	bool col = false;
+	// check against all enemies
+	for(int i = 0; i < m_enemies.size(); ++i)
+	{
+		// check if this enemy is colliding with the give entity
+		if( entity->collisionCheck( m_enemies.get(i), true ) != NONE )
+			col = true;
+	}
+	// collisions occured return false
+	return col;
+}
+
+// same as overload although the enemy of the given index is ignored
+bool Room::coll_enemies(Entity* entity, int ignoreIndex)
+{
+	bool col = false;
+	// check against all enemies
+	for(int i = 0; i < m_enemies.size(); ++i)
+	{
+		// check if this enemy is colliding with the give entity
+		// if the enemy being checked is the given index ignore it
+		if( entity->collisionCheck( m_enemies.get(i), true ) != NONE && i != ignoreIndex)
+			col = true;
+	}
+	// collisions occured return false
+	return col;
+}
+

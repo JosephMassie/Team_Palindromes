@@ -138,6 +138,7 @@ void Enemy::update(float dT)
 	CoolDownCtrl(dT,atkTimer);
 	CoolDownCtrl(dT,aniTimer);
 	CoolDownCtrl(dT,ultTimer);
+	bool attacking = false;
 	// if not boss work normally
 	static bool init = true;
 	if(init)
@@ -146,6 +147,7 @@ void Enemy::update(float dT)
 		findPath();
 		init = false;
 	}
+
 	if(m_type != BOSS)
 	{
 		// check if player is in attack range
@@ -154,7 +156,8 @@ void Enemy::update(float dT)
 			m_player->takeDmg(dmg);
 			atkTimer.active = true;
 			aniTimer.active = true;
-			velocity = m_player->getPosition().difference(m_pos);
+			velocity = V2DF(0,0);
+			attacking = true;
 		}
 		else if (!m_player->getPosition().isWithin(siteRange, m_pos))
 		{
@@ -202,8 +205,17 @@ void Enemy::update(float dT)
 
 	// degrade velocity by 20%
 	velocity.multiply(.8);
-	// change facing based on velocity
-	m_angle = atan2f(velocity.y,velocity.x)*(180.0f/V2D_PI) + 90.0f;
+
+	// determine facing
+	if(attacking || velocity.isZero())
+	{
+		// attacking so face the player
+		V2DF difference = m_player->getPosition().difference(m_pos);
+		m_angle = atan2f(difference.y,difference.x)*(180.0f/V2D_PI) + 90.0f;
+	}
+	else
+		// otherwise change facing based on velocity
+		m_angle = atan2f(velocity.y,velocity.x)*(180.0f/V2D_PI) + 90.0f;
 
 	// control attack animation
 	if(aniTimer.active)
@@ -253,6 +265,8 @@ bool Enemy::checkForCollisions()
 	bool collided = false;
 	// check against all walls
 	collided = m_room->coll_walls(this);
+	collided = collided | m_room->coll_enemies(this,0);
+	collided = collided | m_player->collisionCheck(this, true);
 	return collided;
 }
 

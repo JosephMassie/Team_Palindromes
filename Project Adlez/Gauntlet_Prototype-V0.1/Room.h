@@ -77,5 +77,7 @@ public:
 	Enemy* getEnemy(int a_index);
 	void update(float dT);
 	bool coll_walls(Entity* entity);
+	bool coll_enemies(Entity* entity);
+	bool coll_enemies(Entity* entity,int ignoreIndex);
 	Room* collOpenDoors(FRect a_rect, V2DF& posNew);
 };

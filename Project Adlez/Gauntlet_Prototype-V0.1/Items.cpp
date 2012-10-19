@@ -63,14 +63,14 @@ void Items::useSword() {
 	 //check if any entity is colliding with it
 	Room* tempRoom;
 	tempRoom = player->getCurrentRoom();
-	float tempAngle =( player->getAngle()) * (V2D_PI / 180.0f);
+	float tempAngle =( player->getAngle()-90) * (V2D_PI / 180.0f);
 	V2DF swordPos(cos(tempAngle), sin(tempAngle));
 	V2DF tempColPos;
 	swordPos.normalize();
-	swordPos.multiply(100);
+	swordPos.multiply(40);
 	swordPos.add(player->getPosition());
 	for(int i = 0; i < tempRoom->EnemyCount(); i++) {
-		if(swordPos.lineCrossesCircle(swordPos, player->getPosition(), tempRoom->getEnemy(i)->getPosition(), 30,tempColPos)) {
+		if(swordPos.lineCrossesCircle(swordPos, player->getPosition(), tempRoom->getEnemy(i)->getPosition(), 15,tempColPos)) {
 			player->hit = 'Y';
 			break;
 		}

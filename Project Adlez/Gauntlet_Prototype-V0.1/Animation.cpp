@@ -43,6 +43,9 @@ void Animation::update(float dT)
 			if(!begining) // make sure that this is not the first time the animation is run
 			{
 				currentFrame++;
+				// cycle back to the begining
+				if(currentFrame >= m_texture->getImageCount())
+					currentFrame = 0;
 			}
 			else
 				begining = false;
