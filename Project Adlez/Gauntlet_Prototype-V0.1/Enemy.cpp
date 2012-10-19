@@ -97,11 +97,11 @@ void Enemy::setup()
 		m_tex.initialize(L"images/ghost.png");
 		maxHealth = 30;
 		curHeatlh = maxHealth;
-		mSpd = 1;
+		mSpd = 2;
 		dmg = 4;
 		aSpd = 1;
-		atkRange = 100;
-		siteRange = GRID_SIZE * 4;
+		atkRange = 50;
+		siteRange = GRID_SIZE * 1.1;
 		break;
 	case BOSS:
 		// set stats to boss
@@ -154,14 +154,20 @@ void Enemy::update(float dT)
 			m_player->takeDmg(dmg);
 			atkTimer.active = true;
 			aniTimer.active = true;
+			velocity = m_player->getPosition().difference(m_pos);
 		}
-		else if (!m_player->getPosition().isWithin(atkRange, m_pos))
+		else if (!m_player->getPosition().isWithin(siteRange, m_pos))
 		{
-			bool wandering = false;
-			if(playerPos != m_player->getPosition() || m_pos != path.get(0)->getPosition())
+			if(playerPos != m_player->getPosition() || m_pos != path.get(path.size() -2)->getPosition())
 			{
 				findPath();
 			}
+			seek(path.get(path.size()-2)->getPosition());
+		}
+		else if(m_player->getPosition().isWithin(siteRange, m_pos)
+			&& !m_player->getPosition().isWithin(atkRange, m_pos))
+		{
+			
 			seek(m_player->getPosition());
 		}
 	}
@@ -191,10 +197,8 @@ void Enemy::update(float dT)
 	if (velocity.length() > mSpd * GRID_SIZE)
 		velocity = velocity.normal().product(mSpd * GRID_SIZE);
 	// update position
-	/*if(!checkForCollisions())
-	{*/
+	
 		m_pos.add( velocity.product(dT) );
-	/*}*/
 
 	// degrade velocity by 20%
 	velocity.multiply(.8);
@@ -234,21 +238,13 @@ void Enemy::findPath()
 	{
 		pathFinder.findPath(n, m_room->getPlayerNode(m_player), &path);
 	}
-	//path.pull();
 }
 void Enemy::seek(V2DF target)
 {
-	// go towards target
-	// determine current velocity
-	//V2DF vEnd = m_pos.sum(velocity);
 	// determine current steering force
 
-	static int iterator = 0;
-	if(m_pos == path.get(iterator)->getPosition())
-	{
-		iterator++;
-	}
-	V2DF steeringForce = target.difference(path.get(iterator)->getPosition());
+
+	V2DF steeringForce = target.difference(m_pos);
 	velocity.add(steeringForce);
 }
 
@@ -263,9 +259,8 @@ bool Enemy::checkForCollisions()
 GraphNode * Enemy::getMyPos()
 {
 
-	int tempX = ((m_pos.x - HALF_GRID - BORDER) / GRID_SIZE);
-	int tempY = ((m_pos.y - HALF_GRID - BORDER) / GRID_SIZE);
-	GraphNode * currentNode = m_room->getNode(tempX, tempY);
+
+	GraphNode * currentNode = m_room->getNode(m_pos);
 	return currentNode;
 }
 
@@ -273,6 +268,6 @@ void Enemy::render()
 {
 	m_tex.draw(m_pos, m_angle, m_scale);
 	// draw all nodes in the current path
-	for(int i = 0; i < path.size(); ++i)
-		m_nodeTex.draw( path.get(i)->getPosition(), 0.0f, 1.0f);
+	/*for(int i = 0; i < path.size(); ++i)
+		m_nodeTex.draw( path.get(i)->getPosition(), 0.0f, 1.0f);*/
 }
