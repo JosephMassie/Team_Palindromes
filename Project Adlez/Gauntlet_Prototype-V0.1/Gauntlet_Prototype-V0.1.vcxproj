@@ -77,6 +77,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="DX2DEngine.cpp" />
     <ClCompile Include="Dungeon.cpp" />
@@ -99,6 +100,7 @@
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="astar.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="DX2DEngine.h" />

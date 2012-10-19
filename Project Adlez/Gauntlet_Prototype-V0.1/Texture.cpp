@@ -148,3 +148,8 @@ void Texture::draw(int index, V2DF pos, float rotAngle, float scale)
 	else // if the is a issue draw the whole texture instead
 		engine->renderTexture(textureID, pos, scale, rotAngle, 0);
 }
+
+int Texture::getImageCount()
+{
+	return m_rects.size();
+}

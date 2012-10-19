@@ -387,6 +387,37 @@ GraphNode* Room::getNode(int x, int y)
 	return m_graph.getNode( m_layout[y][x].m_graphNodeID );
 }
 
+// returns a node of the given location if it exists
+// if the location doesn't have a node null is returned
+GraphNode* Room::getNode(V2DF pos)
+{
+	for(int y = 0; y < ROOM_HEIGHT; ++y)
+	{
+		for(int x = 0; x < ROOM_WIDTH; ++x)
+		{
+			// only check if it is a floor tile
+			if( m_layout[y][x].m_type == FLOOR )
+			{
+				// calculate this tile's rect
+				V2DF temp;
+				temp.x = (x * GRID_SIZE) + BORDER + HALF_GRID;
+				temp.y = (y * GRID_SIZE) + BORDER + HALF_GRID;
+				FRect bRect;
+				bRect.top = temp.y - 16.0f;
+				bRect.left = temp.x - 16.0f;
+				bRect.right = temp.x + 16.0f;
+				bRect.bottom = temp.y + 16.0f;
+				
+				// check if the player is in this node
+				if( colliding(pos, bRect) )
+					return getNode(x,y);
+			}
+		}
+	}
+	// no node reutrn null
+	return 0;
+}
+
 // returns the current number of enemies in this room
 int Room::EnemyCount() { return m_enemies.size(); }
 
@@ -430,7 +461,7 @@ GraphNode* Room::getPlayerNode(Player* thePlayer)
 			}
 		}
 	}
-	// now get a reference to the correct node
-	
+	// no node reutrn null
+	return 0;
 }
 

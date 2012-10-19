@@ -70,6 +70,7 @@ public:
 	void setDoors(Room* doors[4]);
 	Node checkLocation(int x, int y);
 	GraphNode* getNode(int x, int y);
+	GraphNode* getNode(V2DF pos);
 	void enterRoom(Player * thePlayer);
 	GraphNode* getPlayerNode(Player * thePlayer);
 	int EnemyCount();

@@ -29,4 +29,5 @@ public:
 	void release();
 	void draw(V2DF pos, float rotAngle, float scale);
 	void draw(int index, V2DF pos, float rotAngle, float scale);
+	int getImageCount();
 };
