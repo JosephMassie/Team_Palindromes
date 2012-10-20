@@ -40,8 +40,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Include;E:\api\inc;C:\Users\MikeAndMaria\Desktop\FMOD Programmers API Windows\api\inc;C:\Users\MikeAndMaria\Desktop\DirectX\Include;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Programmers API Windows\api\inc;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Lib\x86;E:\api\lib;C:\Users\MikeAndMaria\Desktop\FMOD Programmers API Windows\api\lib;C:\Users\MikeAndMaria\Desktop\DirectX\Lib\x86;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Programmers API Windows\api\lib;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>E:\Program Files %28x86%29\Microsoft DirectX SDK\Include;C:\Users\Pipoy\Desktop\api\api\inc;C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Include;E:\api\inc;C:\Users\MikeAndMaria\Desktop\FMOD Programmers API Windows\api\inc;C:\Users\MikeAndMaria\Desktop\DirectX\Include;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Programmers API Windows\api\inc;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Program Files %28x86%29\Microsoft DirectX SDK\Lib\x86;C:\Users\Pipoy\Desktop\api\api\lib;C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Lib\x86;E:\api\lib;C:\Users\MikeAndMaria\Desktop\FMOD Programmers API Windows\api\lib;C:\Users\MikeAndMaria\Desktop\DirectX\Lib\x86;C:\Program Files %28x86%29\FMOD SoundSystem\FMOD Programmers API Windows\api\lib;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

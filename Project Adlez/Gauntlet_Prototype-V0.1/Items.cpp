@@ -9,7 +9,21 @@ Items::Items() {
 Items::Items(Player *a_player) {
 	I1Cldwn = 0;
 	I2Cldwn = 0;
+	bombState = 0;
 	player = a_player;
+	bombRect = createRect(GRID_SIZE * 2,GRID_SIZE  *2);
+	//boomRect = createRect(0,GRID_SIZE,0,GRID_SIZE);
+	bomb.initialize(V2DF(0,0),L"images/bomb.png",bombRect,0,1);
+	boom.initialize(V2DF(0,0),L"images/boomerang.png",boomRect,0,1);
+
+	bombCldwn.active = false;
+	bombCldwn.duration = BMBCD;
+	bombCldwn.timePassed = 0;
+
+	boomCldwn.active = false;
+	boomCldwn.duration = BMCD;
+	boomCldwn.timePassed = 0;
+
 }
 
 //Use item depending what item is on slot 1
@@ -63,14 +77,14 @@ void Items::useSword() {
 	 //check if any entity is colliding with it
 	Room* tempRoom;
 	tempRoom = player->getCurrentRoom();
-	float tempAngle =( player->getAngle()-90) * (V2D_PI / 180.0f);
+	float tempAngle =( player->getAngle() - 90) * (V2D_PI / 180.0f);
 	V2DF swordPos(cos(tempAngle), sin(tempAngle));
 	V2DF tempColPos;
 	swordPos.normalize();
-	swordPos.multiply(40);
+	swordPos.multiply(35);
 	swordPos.add(player->getPosition());
 	for(int i = 0; i < tempRoom->EnemyCount(); i++) {
-		if(swordPos.lineCrossesCircle(swordPos, player->getPosition(), tempRoom->getEnemy(i)->getPosition(), 15,tempColPos)) {
+		if(swordPos.lineCrossesCircle(swordPos, player->getPosition(), tempRoom->getEnemy(i)->getPosition(), 30,tempColPos)) {
 			player->hit = 'Y';
 			break;
 		}
@@ -111,10 +125,83 @@ void Items::useBoomerang() {
 	//travel through a certain path mostly oval
 	//if an entity hits it that entity takes damage
 	//cooldown is refreshed when the boomerang is back at the player's position
+	boom.setPosition(player->getPosition());
+	boomCldwn.active = true;
 }
 
 void Items::useBomb() {
-	//bomb script
 	//leaves a bomb at the player's position
-	//bomb activates and explodes after a few seconds
+	bomb.setPosition(player->getPosition());
+	bombCldwn.active = true;
+	bombState = 1;
+}
+
+void Items::update(float dT) {
+	updateBomb(dT);
+	updateBoom(dT);
+}
+void Items::updateBoom(float dT) {
+	Room* tempRoom;
+	tempRoom = player->getCurrentRoom();
+	if(boomCldwn.active) {
+		CoolDownCtrl(dT,boomCldwn);
+		if(boomCldwn.active == false) {
+			for(int i = 0; i < tempRoom->EnemyCount(); i++) {
+				//if(/*checkCollision(&boom,tempRoom->getEnemy(i)*/) ) {
+				//	//do damage to enemy here
+				//}
+			}
+		}
+
+	}
+	
+}
+void Items::updateBomb(float dT) {
+	//if bomb is activated
+	  //set timer
+	  //blow up after timer is done
+	//check for collisions when it blows up
+	Room* tempRoom;
+	tempRoom = player->getCurrentRoom();
+	if(bombState == 1) {
+		CoolDownCtrl(dT, bombCldwn);
+		if(bombCldwn.active == false) {
+			for(int i = 0; i < tempRoom->EnemyCount(); i++) {
+				if(tempRoom->getEnemy(i)->collisionCheck(&bomb, false) ){
+					//do damage to enemy here
+					player->hit = 'Y';
+				}
+			}
+			bombState = 0;
+		}
+
+	}
+}
+
+//bool Items::checkCollision(Entity *item,Entity* other) {
+//	FRect rectA = item->getRelativeBoundRect();
+//	FRect rectB = other->getRelativeBoundRect();
+//	bool collide;
+//	if( colliding(rectA, rectB) )	{
+//		return (collide = true);
+//	}
+//	return (collide = false);
+//}
+
+void Items::render() {
+	if(bombCldwn.active) {
+		bomb.render();
+	}
+	if(boomCldwn.active) {
+		boom.render();
+	}
+}
+
+FRect Items::createRect(float width, float height) {
+	FRect temp;
+	temp.top = -(height /2) ;
+	temp.bottom = (height /2);
+	temp.left = -(width / 2);
+	temp.right = width / 2;
+	return temp;
 }

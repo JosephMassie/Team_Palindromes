@@ -96,11 +96,15 @@ void Player::render()
 	// render player
 //	m_tex.draw(m_pos, m_angle, m_scale);
 	playerAnim.render(m_pos, m_angle, m_scale);
+
+	//render items
+	pItems.render();
 }
 
 // used to keep inheritance happy
 void Player::update(float dT)
 {
+	
 }
 
 // Gather input and update the player accordingly
@@ -156,6 +160,8 @@ void Player::Update(float dT, GameEngine* engine)
 	{
 		playerAnim.start(false);
 	}
+	//update Items
+	pItems.update(dT);
 }
 
 void Player::setCurrentRoom(Room* a_room)
