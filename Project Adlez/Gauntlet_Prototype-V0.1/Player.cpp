@@ -242,7 +242,7 @@ void Player::getInput()
 			item1 = BOMB;
 		}
 	}
-	// E to cycle throught slot 2
+	// E to cycle throught slot 
 	if(pInput->keyPressed(DIK_E)&& !b2Cldwn.active && !b1Cldwn.active) {
 		slot2++;
 		if(slot2 == slot1){

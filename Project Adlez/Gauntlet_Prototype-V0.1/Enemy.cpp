@@ -95,7 +95,7 @@ void Enemy::setup()
 	case GHOST:
 		// set stats to that of a ghost
 		m_tex.initialize(L"images/ghost_anim.png", 8, 2, 4, 32);
-		ghostAnim.initialize(&m_tex, 40.0f);
+		ghostAnim.initialize(&m_tex, 100.0f);
 		maxHealth = 30;
 		curHeatlh = maxHealth;
 		mSpd = 2;

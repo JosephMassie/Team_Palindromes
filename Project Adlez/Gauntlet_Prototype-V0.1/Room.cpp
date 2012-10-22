@@ -247,7 +247,7 @@ void Room::render()
 	for(int i = 0; i < m_enemies.size(); ++i)
 		m_enemies.get(i)->render();
 
-	m_graph.render();
+//	m_graph.render();
 }
 
 // check the given location. if it is enterable return true else return false
