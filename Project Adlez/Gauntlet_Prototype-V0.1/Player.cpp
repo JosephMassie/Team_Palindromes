@@ -21,7 +21,7 @@ Player::Player()
 	item2 = SHIELD;
 
 	slot1 = 0;
-	slot2 = 1;
+	slot2 = 3;
 	hit = 'N';
 }
 
@@ -223,7 +223,7 @@ void Player::getInput()
 		if(slot1 == slot2){
 			slot1++;
 		}
-		if(slot1 >= 4) {
+		if(slot1 >= 3) {
 			slot1 = 0;
 			if(slot1 == slot2){
 				slot1++;
@@ -232,41 +232,41 @@ void Player::getInput()
 		if(slot1 == 0) {
 			item1 = SWORD;
 		}
-		else if(slot1 == 1) {
+	/*	else if(slot1 == 1) {
 			item1 = SHIELD;
-		}
-		else if(slot1 == 2) {
+		}*/
+		else if(slot1 == 1) {
 			item1 = BOOMERANG;
 		}
-		else if(slot1 == 3) {
+		else if(slot1 == 2) {
 			item1 = BOMB;
 		}
 	}
-	// E to cycle throught slot 
-	if(pInput->keyPressed(DIK_E)&& !b2Cldwn.active && !b1Cldwn.active) {
-		slot2++;
-		if(slot2 == slot1){
-			slot2++;
-		}
-		if(slot2 >= 4) {
-			slot2 = 0;
-			if(slot2 == slot1){
-				slot2++;
-			}
-		}
-		if(slot2 == 0) {
-			item2 = SWORD;
-		}
-		else if(slot2 == 1) {
-			item2 = SHIELD;
-		}
-		else if(slot2 == 2) {
-			item2 = BOOMERANG;
-		}
-		else if(slot2 == 3) {
-			item2 = BOMB;
-		}
-	}
+	//// E to cycle throught slot 
+	//if(pInput->keyPressed(DIK_E)&& !b2Cldwn.active && !b1Cldwn.active) {
+	//	slot2++;
+	//	if(slot2 == slot1){
+	//		slot2++;
+	//	}
+	//	if(slot2 >= 4) {
+	//		slot2 = 0;
+	//		if(slot2 == slot1){
+	//			slot2++;
+	//		}
+	//	}
+	//	if(slot2 == 0) {
+	//		item2 = SWORD;
+	//	}
+	//	else if(slot2 == 1) {
+	//		item2 = SHIELD;
+	//	}
+	//	else if(slot2 == 2) {
+	//		item2 = BOOMERANG;
+	//	}
+	//	else if(slot2 == 3) {
+	//		item2 = BOMB;
+	//	}
+	//}
 	// check the the player's current space is an unlocked door
 	// used to get next room
 	V2DF posNew(0,0);

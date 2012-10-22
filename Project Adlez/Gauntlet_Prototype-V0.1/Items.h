@@ -2,7 +2,7 @@
 #include "Entity.h"
 extern class Player;
 
-enum ITEM {SWORD,SHIELD,BOOMERANG,BOMB};
+enum ITEM {SWORD,BOOMERANG,BOMB,SHIELD};
 
 #define SWCD 0.5 //sword cooldown
 #define SHCD 1 //shield cooldown

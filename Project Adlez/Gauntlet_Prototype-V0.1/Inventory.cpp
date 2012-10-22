@@ -47,23 +47,23 @@ void Inventory::update(int a_slot1, int a_slot2)
 	switch(slotcur[0])
 	{
 	case 0:
-		slotnext[0] = 2;
-		slotnext2[0] = 3;
+		slotnext[0] = 1;
+		slotnext2[0] = 2;
 		break;
+
 	case 1:
-	case 2:
-		slotnext[0] = 3;
+		slotnext[0] = 2;
 		slotnext2[0] = 0;
 		break;
-	case 3:
+	case 2:
 		slotnext[0] = 0;
-		slotnext2[0] = 2;
+		slotnext2[0] = 1;
 		break;
 	}	
 
 	// offhand item switch (if needed)
 	// 1 sets it to shield
-	slotcur[1] = 1;	
+	slotcur[1] = 3;	
 	//slotnext[1] = a_slot2+1;
 }
 
@@ -78,13 +78,13 @@ void Inventory::render()
 			sword.draw(cur[i].pos, cur[i].angle, cur[i].scale);
 			break;
 		case 1:
-			shield.draw(cur[i].pos, cur[i].angle, cur[i].scale);
-			break;
-		case 2:
 			boomerang.draw(cur[i].pos, cur[i].angle, cur[i].scale);
 			break;
-		case 3:
+		case 2:
 			bomb.draw(cur[i].pos, cur[i].angle, cur[i].scale);
+			break;
+		case 3:
+			shield.draw(cur[i].pos,cur[i].angle,cur[i].scale);
 			break;
 		}
 		// draw next item
@@ -94,24 +94,22 @@ void Inventory::render()
 			sword.draw(next[i].pos, next[i].angle, next[i].scale);
 			break;
 		case 1:
-		case 2:
 			boomerang.draw(next[i].pos, next[i].angle, next[i].scale);
 			break;
-		case 3:
+		case 2:
 			bomb.draw(next[i].pos, next[i].angle, next[i].scale);
 			break;	
 		}
 		// draw next next item
 		switch(slotnext2[i])
 		{
-			case 0:
+		case 0:
 			sword.draw(next2[i].pos, next2[i].angle, next2[i].scale);
 			break;
 		case 1:
-		case 2:
 			boomerang.draw(next2[i].pos, next2[i].angle, next2[i].scale);
 			break;
-		case 3:
+		case 2:
 			bomb.draw(next2[i].pos, next2[i].angle, next2[i].scale);
 			break;	
 		}
