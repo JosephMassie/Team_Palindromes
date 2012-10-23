@@ -132,7 +132,7 @@ void Texture::release()
 void Texture::draw(V2DF pos, float rotAngle, float scale)
 {
 	// pass in 0 for sprite sheet rect
-	engine->renderTexture(textureID, pos, scale, rotAngle, 0);
+	engine->renderTexture(textureID, pos, scale, rotAngle, 0, m_R, m_G, m_B);
 }
 
 // draws the given sprite from the sheet with the given coordinates
@@ -143,10 +143,10 @@ void Texture::draw(int index, V2DF pos, float rotAngle, float scale)
 		// get the sprite's rect
 		RECT temp = m_rects.get(index);
 
-		engine->renderTexture(textureID, pos, scale, rotAngle, &temp);
+		engine->renderTexture(textureID, pos, scale, rotAngle, &temp, m_R, m_G, m_B);
 	}
 	else // if the is a issue draw the whole texture instead
-		engine->renderTexture(textureID, pos, scale, rotAngle, 0);
+		engine->renderTexture(textureID, pos, scale, rotAngle, 0, m_R, m_G, m_B);
 }
 
 int Texture::getImageCount()

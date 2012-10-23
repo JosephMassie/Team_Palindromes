@@ -20,6 +20,7 @@ struct STATUS
 	float health;
 	int slot1;
 	int slot2;
+	int gCount;
 };
 
 // used to save collisions that have occured

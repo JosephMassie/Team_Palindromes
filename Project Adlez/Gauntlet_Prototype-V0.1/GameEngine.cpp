@@ -58,7 +58,18 @@ void GameEngine::update(float dT)
 		// start
 		start.update(dT);
 		if(start.clicked())
-			m_state = CLASS;
+		{
+			FRect temp;
+			temp.bottom = 8;
+			temp.top = -8;
+			temp.left = -8;
+			temp.right = 8;
+			thePlayer.initialize(temp);
+			m_state = GAME;
+			// TODO:: remove this following line used for debug/test only
+			thePlayer.setCurrentRoom(Dungeon1.getStart());
+			thePlayer.setPosition( V2DF( GRID_SIZE * 8 + HALF_GRID + BORDER, GRID_SIZE * 6 + HALF_GRID + BORDER ) );
+		}
 		// quit
 		quit.update(dT);
 		if(quit.clicked())
@@ -163,6 +174,7 @@ void GameEngine::render()
 		break;
 	case VICTORY:
 	case DEAD:
+		gamebg.draw(V2DF(312, 170), 0.0f, 0.78f);
 		main.render();
 		quit.render();
 		break;

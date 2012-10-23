@@ -4,6 +4,7 @@
 class Rock : public Entity
 {
 private:
+	float value;
 public:
 	void update(float dT);
 	void addForce(V2DF force);

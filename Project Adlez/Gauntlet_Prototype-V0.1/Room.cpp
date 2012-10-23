@@ -73,9 +73,12 @@ void Room::initialize(char* roomFile, ROOM_TYPE type, GameEngine *ref, Player* t
 			// make sure temp is not eof
 			if(temp == EOF)
 				break;
+			bool createRock = false;
 			// now parse this line to create the room
 			switch(temp)
 			{
+			case 'R':
+				createRock = true;
 			case'.': // floor
 				m_layout[y][x].m_type = FLOOR;
 				m_layout[y][x].m_graphNodeID = -1;
@@ -108,6 +111,15 @@ void Room::initialize(char* roomFile, ROOM_TYPE type, GameEngine *ref, Player* t
 				// increment 
 				freeSize++;
 				break;
+			}
+
+			// create a rock if told to
+			if(createRock)
+			{
+				V2DF Rpos(x * GRID_SIZE + HALF_GRID + BORDER,y * GRID_SIZE + HALF_GRID + BORDER);
+				FRect Rrect; Rrect.top = -8; Rrect.left = -8; Rrect.right = 8; Rrect.bottom = 8;
+				Entity Rrock(Rpos, L"images/gem.png", Rrect, 0.0f, 0.5f);
+				m_rocks.add(Rrock);
 			}
 		}
 		// make sure temp is not eof
@@ -247,6 +259,9 @@ void Room::render()
 	for(int i = 0; i < m_enemies.size(); ++i)
 		m_enemies.get(i)->render();
 
+	for(int i = 0; i < m_rocks.size(); ++i)
+		m_rocks.get(i).render();
+
 //	m_graph.render();
 }
 
@@ -306,9 +321,25 @@ void Room::enterRoom(Player* thePlayer)
 
 void Room::update(float dT)
 {
+	// update enemies
+	for(int i = 0; i < m_enemies.size(); ++i)
+		m_enemies.get(i)->update(dT);
+	// check if any enemies are dead
 	for(int i = 0; i < m_enemies.size(); ++i)
 	{
-		m_enemies.get(i)->update(dT);
+		// check this enemy's health
+		if(m_enemies.get(i)->checkHealth() <= 0)
+		{
+			// on a random chance spawn a gem
+			if(randomInt(0,100) >= 50)
+			{
+				FRect rect; rect.top = -8; rect.left = -8; rect.right = 8; rect.bottom = 8;
+				Entity gem(m_enemies.get(i)->getPosition(), L"images/gem.png", rect, 0.0f, 0.5f);
+				m_rocks.add(gem);
+			}
+			// this enemy is dead remove it from the list
+			m_enemies.removeFast(i);
+		}
 	}
 }
 
@@ -497,3 +528,19 @@ bool Room::coll_enemies(Entity* entity, int ignoreIndex)
 	return col;
 }
 
+int Room::coll_gems(Entity* entity)
+{
+	int collNum = 0;
+	// check each rock
+	for(int i = 0; i < m_rocks.size(); ++i)
+	{
+		if( m_rocks.get(i).collisionCheck(entity,false) != NONE)
+		{
+			// remove it fromt the list
+			m_rocks.removeFast(i);
+			i--;
+			collNum++;
+		}
+	}
+	return collNum;
+}

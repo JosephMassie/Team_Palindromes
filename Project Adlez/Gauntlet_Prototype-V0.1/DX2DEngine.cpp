@@ -255,7 +255,7 @@ int DX2DEngine::createTexture(LPCWSTR file, int length)
 // draw the given texture with the given attributes if it exists
 // if drawing from a sprite sheet pass in the correct rect
 // pass in NULL for a_sheetRect if not drawing from a sheet
-void DX2DEngine::renderTexture(int index, V2DF pos, float scale, float angle, RECT *a_sheetRect)
+void DX2DEngine::renderTexture(int index, V2DF pos, float scale, float angle, RECT *a_sheetRect, int r, int g, int b)
 {
 	// make sure the texture exists
 	if(index < m_textures.size())
@@ -294,14 +294,14 @@ void DX2DEngine::renderTexture(int index, V2DF pos, float scale, float angle, RE
 				// draw the texture at its center
 				HRESULT hr = m_pSprite->Draw( m_textures.get(index)->m_pTexture, a_sheetRect,
 					&D3DXVECTOR3(width * 0.5f, height * 0.5f, 0.0f), 
-					NULL, D3DCOLOR_ARGB(255, 255, 255, 255) );
+					NULL, D3DCOLOR_ARGB(255, r, g, b) );
 			}
 			else
 			{
 				// draw the texture at its center
 				HRESULT hr = m_pSprite->Draw( m_textures.get(index)->m_pTexture, 0,
 					&D3DXVECTOR3(m_textures.get(index)->m_imageInfo.Width * 0.5f, m_textures.get(index)->m_imageInfo.Height * 0.5f, 0.0f), 
-					NULL, D3DCOLOR_ARGB(255, 255, 255, 255) );
+					NULL, D3DCOLOR_ARGB(255, r, g, b) );
 			}
 		}
 	}

@@ -88,6 +88,10 @@ bool Player::checkForCollisions()
 	bool collided = false;
 	// check against all walls
 	collided = m_curRoom->coll_walls(this);
+	// check against enemies
+	collided = m_curRoom->coll_enemies(this);
+	// check for gems
+	status.gCount = m_curRoom->coll_gems(this);
 	return collided;
 }
 
@@ -152,7 +156,7 @@ void Player::Update(float dT, GameEngine* engine)
 
 	// update player animation
 	playerAnim.update(dT);
-	if(velocity.isLessThan(.5))
+	if(velocity.length() <= .5)
 	{
 		playerAnim.stop(true);
 	}
@@ -176,8 +180,8 @@ Room* Player::getCurrentRoom()
 
 void Player::takeDmg(float a_dmg)
 {
-//	pSound->playSound(HIT);
-//	curHealth-=a_dmg;
+	pSound->playSound(HIT);
+	curHealth-=a_dmg;
 }
 
 void Player::getInput()
@@ -357,6 +361,7 @@ ITEM Player::equipItem2() {
 //////Debugging
 /////////////////////////////////////
 void Player::drawText() {
+/*	Debug display
 	char buff[200] = {0};
 	char cd1, cd2;
 	if(b1Cldwn.active) {
@@ -377,7 +382,7 @@ void Player::drawText() {
 	temp.top = 0;
 	temp.left = 0;
 	temp.right = 800;
-	gEngine->writeText(buff, temp);
+	gEngine->writeText(buff, temp); */
 }
 
 //////////////////////////

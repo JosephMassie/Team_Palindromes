@@ -16,6 +16,7 @@ void UserInterface::update(STATUS status)
 {
 	hp.update(status.health);
 	items.update(status.slot1, status.slot2);
+	gem.addGems(status.gCount);
 }
 
 void UserInterface::render() 

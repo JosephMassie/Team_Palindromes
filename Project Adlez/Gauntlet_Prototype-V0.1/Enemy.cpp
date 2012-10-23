@@ -101,8 +101,8 @@ void Enemy::setup()
 		mSpd = 2;
 		dmg = 4;
 		aSpd = 1;
-		atkRange = 50;
-		siteRange = GRID_SIZE * 1.1;
+		atkRange = 30;
+		siteRange = GRID_SIZE * 1.5;
 		break;
 	case BOSS:
 		// set stats to boss
@@ -155,6 +155,7 @@ void Enemy::update(float dT)
 	if(m_type != BOSS)
 	{
 		// check if player is in attack range
+		// and that i can attack
 		if (m_player->getPosition().isWithin(atkRange, m_pos) && !atkTimer.active)
 		{
 			m_player->takeDmg(dmg);
@@ -163,14 +164,19 @@ void Enemy::update(float dT)
 			velocity = V2DF(0,0);
 			attacking = true;
 		}
+		// see if player is in site range
+		// if player is in site range and still far away path to them
 		else if (!m_player->getPosition().isWithin(siteRange, m_pos))
 		{
 			if(playerPos != m_player->getPosition() || m_pos != path.get(path.size() -2)->getPosition())
 			{
 				findPath();
 			}
-			seek(path.get(path.size()-2)->getPosition());
+			// make sure path size is larget than 1
+			if(path.size() > 1)
+				seek(path.get(path.size()-2)->getPosition());
 		}
+		// if player is to close simply seek
 		else if(m_player->getPosition().isWithin(siteRange, m_pos)
 			&& !m_player->getPosition().isWithin(atkRange, m_pos))
 		{
@@ -203,9 +209,9 @@ void Enemy::update(float dT)
 	// make sure velocity doesn't exceed max
 	if (velocity.length() > mSpd * GRID_SIZE)
 		velocity = velocity.normal().product(mSpd * GRID_SIZE);
+
 	// update position
-	
-		m_pos.add( velocity.product(dT) );
+	m_pos.add( velocity.product(dT) );
 
 	// degrade velocity by 20%
 	velocity.multiply(.8);
@@ -286,6 +292,11 @@ void Enemy::render()
 {
 	//m_tex.draw(m_pos, m_angle, m_scale);
 	ghostAnim.render(m_pos, m_angle, m_scale);
+	// if attacking tint red
+	if(aniTimer.active)
+		m_tex.setTint(255.0f,0.0f,0.0f);
+	else
+		m_tex.setTint(255.0f,255.0f,255.0f);
 	// draw all nodes in the current path
 	/*for(int i = 0; i < path.size(); ++i)
 		m_nodeTex.draw( path.get(i)->getPosition(), 0.0f, 1.0f);*/

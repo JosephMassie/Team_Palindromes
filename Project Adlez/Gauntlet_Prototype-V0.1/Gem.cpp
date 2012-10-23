@@ -30,3 +30,8 @@ void Gem::drawText() {
 	rect.right = 800;
 	engine->writeText(buffer, rect);
 }
+
+void Gem::addGems(int amount)
+{
+	m_count += amount;
+}

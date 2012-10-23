@@ -13,5 +13,6 @@ public:
 	void update(int count);
 	void render();
 	void drawText();
+	void addGems(int amount);
 };
 

@@ -60,7 +60,7 @@ private:
 	// Enemy control variables
 	TemplateVector<Enemy*> m_enemies;
 	// Items in room
-	TemplateVector<Rock> m_rocks;
+	TemplateVector<Entity> m_rocks;
 public:
 	Room();
 	~Room();
@@ -79,5 +79,6 @@ public:
 	bool coll_walls(Entity* entity);
 	bool coll_enemies(Entity* entity);
 	bool coll_enemies(Entity* entity,int ignoreIndex);
+	int coll_gems(Entity* entity);
 	Room* collOpenDoors(FRect a_rect, V2DF& posNew);
 };

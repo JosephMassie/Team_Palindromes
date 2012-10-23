@@ -81,16 +81,17 @@ void Items::useSword() {
 	V2DF swordPos(cos(tempAngle), sin(tempAngle));
 	V2DF tempColPos;
 	swordPos.normalize();
-	swordPos.multiply(35);
+	swordPos.multiply(40);
 	swordPos.add(player->getPosition());
 	for(int i = 0; i < tempRoom->EnemyCount(); i++) {
-		if(swordPos.lineCrossesCircle(swordPos, player->getPosition(), tempRoom->getEnemy(i)->getPosition(), 30,tempColPos)) {
-			player->hit = 'Y';
+		if(swordPos.lineCrossesCircle(swordPos, player->getPosition(), tempRoom->getEnemy(i)->getPosition(), 16,tempColPos)) {
+//			player->hit = 'Y';
+			tempRoom->getEnemy(i)->takeDmg(10);
 			break;
 		}
-		else {
+/*		else {
 			player->hit = 'N';
-		}
+		} */
 	}
 
 
@@ -147,9 +148,10 @@ void Items::updateBoom(float dT) {
 		CoolDownCtrl(dT,boomCldwn);
 		if(boomCldwn.active == false) {
 			for(int i = 0; i < tempRoom->EnemyCount(); i++) {
-				//if(/*checkCollision(&boom,tempRoom->getEnemy(i)*/) ) {
-				//	//do damage to enemy here
-				//}
+				if(tempRoom->getEnemy(i)->collisionCheck(&bomb,false) != NONE)  {
+					//do damage to enemy here
+					tempRoom->getEnemy(i)->takeDmg(30);
+				}
 			}
 		}
 
@@ -169,7 +171,7 @@ void Items::updateBomb(float dT) {
 			for(int i = 0; i < tempRoom->EnemyCount(); i++) {
 				if(tempRoom->getEnemy(i)->collisionCheck(&bomb, false) ){
 					//do damage to enemy here
-					player->hit = 'Y';
+					tempRoom->getEnemy(i)->takeDmg(30);
 				}
 			}
 			bombState = 0;
@@ -178,22 +180,9 @@ void Items::updateBomb(float dT) {
 	}
 }
 
-//bool Items::checkCollision(Entity *item,Entity* other) {
-//	FRect rectA = item->getRelativeBoundRect();
-//	FRect rectB = other->getRelativeBoundRect();
-//	bool collide;
-//	if( colliding(rectA, rectB) )	{
-//		return (collide = true);
-//	}
-//	return (collide = false);
-//}
-
 void Items::render() {
 	if(bombCldwn.active) {
 		bomb.render();
-	}
-	if(boomCldwn.active) {
-		boom.render();
 	}
 }
 
