@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "HelpfulData.h"
 extern class Player;
 
 enum ITEM {SWORD,BOOMERANG,BOMB,SHIELD};
@@ -40,6 +41,10 @@ public:
 	FRect bombRect;
 	
 	int bombState;
+	int boomState;
 	void render();
 	//bool checkCollision(Entity *item,Entity *other);
+
+	void boomSeek(V2DF target);
+	void boomCollision();
 };

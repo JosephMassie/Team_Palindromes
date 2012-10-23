@@ -346,4 +346,5 @@ public:
 	}
 
 	float getAngle() { return m_angle; }
+	V2DF getVelocity() { return velocity; }
 };

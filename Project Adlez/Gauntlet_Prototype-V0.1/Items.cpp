@@ -24,6 +24,9 @@ Items::Items(Player *a_player) {
 	boomCldwn.duration = BMCD;
 	boomCldwn.timePassed = 0;
 
+	bombState = 0;
+	boomState = 0;
+
 }
 
 //Use item depending what item is on slot 1
@@ -126,7 +129,7 @@ void Items::useBoomerang() {
 	//travel through a certain path mostly oval
 	//if an entity hits it that entity takes damage
 	//cooldown is refreshed when the boomerang is back at the player's position
-	boom.setPosition(player->getPosition());
+	boomState = 1;
 	boomCldwn.active = true;
 }
 
@@ -142,19 +145,38 @@ void Items::update(float dT) {
 	updateBoom(dT);
 }
 void Items::updateBoom(float dT) {
-	Room* tempRoom;
-	tempRoom = player->getCurrentRoom();
+	
+	float tempAngle =( player->getAngle() - 90) * (V2D_PI / 180.0f);
+
+	V2DF tempTarget(cos(tempAngle), sin(tempAngle));
+	
+	tempTarget.normalize();
+	tempTarget.multiply(150);
+	tempTarget.add(player->getPosition());
 	if(boomCldwn.active) {
-		CoolDownCtrl(dT,boomCldwn);
-		if(boomCldwn.active == false) {
-			for(int i = 0; i < tempRoom->EnemyCount(); i++) {
-				if(tempRoom->getEnemy(i)->collisionCheck(&bomb,false) != NONE)  {
-					//do damage to enemy here
-					tempRoom->getEnemy(i)->takeDmg(30);
-				}
+		if(boomState == 1) {
+			boom.setPosition(player->getPosition());
+			boomState = 2;
+		} else
+		if(boomState == 2) {
+			//Move the boomerang forward till it reaches tempTarget or hits a wall or duration / 2 == 0
+			// if it reaches tempTarget or hits a wall set boomState to 3
+			boomSeek(tempTarget);
+			boomCollision();
+			if(boom.getPosition() == tempTarget) {
+				boomState = 3;
+			}
+		} else
+		if(boomState == 3) {
+			//Move the boomerang back to the player position
+			// once the boomerang collides with the player set the cooldown active to false and Boomstate to 0
+			boomSeek(player->getPosition());
+			boomCollision();
+			if(boom.collisionCheck(player, false)) {
+				boomState = 0;
+				boomCldwn.active = false;
 			}
 		}
-
 	}
 	
 }
@@ -184,6 +206,9 @@ void Items::render() {
 	if(bombCldwn.active) {
 		bomb.render();
 	}
+	if(boomCldwn.active) {
+		boom.render();
+	}
 }
 
 FRect Items::createRect(float width, float height) {
@@ -193,4 +218,20 @@ FRect Items::createRect(float width, float height) {
 	temp.left = -(width / 2);
 	temp.right = width / 2;
 	return temp;
+}
+
+void Items::boomSeek(V2DF target) {
+	V2DF steeringForce = target.difference(boom.getPosition());
+	boom.getVelocity().add(steeringForce);
+}
+
+void Items::boomCollision() {
+	Room* tempRoom;
+	tempRoom = player->getCurrentRoom();
+	for(int i = 0; i < tempRoom->EnemyCount(); i++) {
+		if(tempRoom->getEnemy(i)->collisionCheck(&bomb,false) != NONE)  {
+				//do damage to enemy here
+			tempRoom->getEnemy(i)->takeDmg(30);
+		}
+	}
 }
