@@ -36,7 +36,7 @@ void Enemy::initialize(ENEMY_TYPE a_type, V2DF a_pos, Player* a_player, Room* a_
 	m_player = a_player;
 	// attack timer
 	atkTimer.active = false;
-	atkTimer.duration = 0.5f;
+	atkTimer.duration = 1.0f;
 	atkTimer.timePassed = 0.0f;
 	// atk animation timer
 	aniTimer.active = false;
@@ -99,7 +99,7 @@ void Enemy::setup()
 		maxHealth = 30;
 		curHeatlh = maxHealth;
 		mSpd = 2;
-		dmg = 4;
+		dmg = 1;
 		aSpd = 1;
 		atkRange = 30;
 		siteRange = GRID_SIZE * 1.5;
