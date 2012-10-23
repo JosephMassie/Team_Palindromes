@@ -74,6 +74,7 @@ void Texture::initialize(LPCWSTR fileName, int R, int G, int B)
 // size = the uniform size of each sprite in the sheet
 void Texture::initialize(LPCWSTR fileName, int count, int rows, int columns, int size)
 {
+	m_R = m_G = m_B = 255;
 	// first get an instance of the graphics engine
 	if(!engine)
 		engine = DX2DEngine::getInstance();
@@ -84,6 +85,9 @@ void Texture::initialize(LPCWSTR fileName, int count, int rows, int columns, int
 	{
 		i++;
 	}
+
+	// remember to set count
+	m_count = count;
 
 	// also load from graphics engine
 	textureID = engine->createTexture(fileName, i);

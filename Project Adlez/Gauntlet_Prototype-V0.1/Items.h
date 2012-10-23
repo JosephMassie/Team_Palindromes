@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "HelpfulData.h"
+#include "Animation.h"
 extern class Player;
 
 enum ITEM {SWORD,BOOMERANG,BOMB,SHIELD};
@@ -14,7 +15,7 @@ class Items {
 public:
 	Items();
 	Items(Player *a_player);
-	~Items(){ };
+	~Items();
 
 	float I1Cldwn;
 	float I2Cldwn;
@@ -39,6 +40,10 @@ public:
 	Entity bomb;
 	ClDwn bombCldwn;
 	FRect bombRect;
+	// Explosion animation controls
+//	ClDwn explosion;
+//	Texture explosionTexture;
+//	Animation explosionAnimation;
 	
 	int bombState;
 	int boomState;
@@ -47,4 +52,5 @@ public:
 
 	void boomSeek(V2DF target);
 	void boomCollision();
+	void release();
 };

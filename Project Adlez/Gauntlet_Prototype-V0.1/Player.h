@@ -34,12 +34,15 @@ private:
 	ClDwn b1Cldwn;
 	ClDwn b2Cldwn;
 
+	ClDwn invincible;
+
 	// for UI
 	STATUS status;
 
 	// sprite sheet for animation
 	Texture m_slash;
 	Texture m_block;
+	Texture m_barrier;
 
 	// animation
 	Animation playerWalk;

@@ -28,4 +28,5 @@ public:
 	void initialise(char* floorFile, GameEngine* ref, Player * thePlayer);
 	void release();
 	Room* getStart();
+	bool allDead();
 };

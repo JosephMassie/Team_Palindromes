@@ -9,6 +9,7 @@ Gem::~Gem(void) {
 }
 
 void Gem::initialize() {
+	m_count = 0;
 	engine = DX2DEngine::getInstance();
 	m_tex.initialize(L"images/gem.png");
 	m_pos = V2DF(UI_LEFT, UI_TOP+GRID_SIZE);

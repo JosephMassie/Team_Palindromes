@@ -182,3 +182,17 @@ Room* Dungeon::getStart()
 {
 	return start;
 }
+
+bool Dungeon::allDead()
+{
+	int count = 0;
+	for(int y = 0; y < FLR_SIZE; y++)
+	{
+		for(int x = 0; x < FLR_SIZE; x++)
+		{
+			if(m_layout[y][x])
+				count += m_layout[y][x]->EnemyCount();
+		}
+	}
+	return (count <= 0);
+}

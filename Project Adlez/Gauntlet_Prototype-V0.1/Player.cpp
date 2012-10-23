@@ -34,14 +34,19 @@ Player::~Player()
 // set player's stats based on given class and load the proper texture
 void Player::initialize(FRect a_rect)
 {
+	// reset health
+	maxHealth = 10;
+	curHealth = 10;
 	// player walk
 	m_tex.initialize(L"images/adlez_walking.png", 8, 2, 4, 32);
 	playerWalk.initialize(&m_tex, 40.0f);
 	// player slash
-	m_slash.initialize(L"images/adlez_slash2.png", 8, 2, 4, 32);
-	playerSlash.initialize(&m_slash, 80.0f);
+	m_slash.initialize(L"images/adlez_slash2.png", 4, 1, 4, 32);
+	playerSlash.initialize(&m_slash, 40.0f);
 	// player block
 	m_block.initialize(L"images/shield_block.png");
+	// player barrier
+	m_barrier.initialize(L"images/barrier.png");
 	// get references to input, sound, and graphics engines
 	pInput = Input::getInstance();
 	pSound = Sound::getInstance();
@@ -84,6 +89,10 @@ void Player::initialize(FRect a_rect)
 	b2Cldwn.timePassed = 0.0f;
 	b2Cldwn.active = false;
 
+	invincible.active = false;
+	invincible.duration = 1.5f;
+	invincible.timePassed = 0.0f;
+
 	pItems = Items(this);
 }
 
@@ -118,6 +127,10 @@ void Player::render()
 
 	//render items
 	pItems.render();
+	
+	// render barrier
+	if(invincible.active)
+		m_barrier.draw(m_pos,0.0f,1.0f);
 }
 
 // used to keep inheritance happy
@@ -140,6 +153,7 @@ void Player::Update(float dT, GameEngine* engine)
 	CoolDownCtrl(dT, canShoot);
 	CoolDownCtrl(dT, b1Cldwn);
 	CoolDownCtrl(dT, b2Cldwn);
+	CoolDownCtrl(dT, invincible);
 
 	// always orientate facing to the mouse pointer
 	V2DF mouse = pInput->getMousePos();
@@ -212,8 +226,12 @@ Room* Player::getCurrentRoom()
 
 void Player::takeDmg(float a_dmg)
 {
-	pSound->playSound(HIT);
-	curHealth-=a_dmg;
+	if(!b2Cldwn.active && !invincible.active)
+	{
+		pSound->playSound(HIT);
+		curHealth-=a_dmg;
+		invincible.active = true;
+	}
 }
 
 void Player::getInput()
@@ -242,7 +260,8 @@ void Player::getInput()
 	
 	//if the buttons are pressed use the appropriate item slot
 	if(pInput->mouseButtonDown(0) && !b2Cldwn.active && !b1Cldwn.active ) {
-		pItems.useItem1(item1);
+		if(item1 != BOOMERANG)
+			pItems.useItem1(item1);
 		b1Cldwn.active = true;
 	}
 	

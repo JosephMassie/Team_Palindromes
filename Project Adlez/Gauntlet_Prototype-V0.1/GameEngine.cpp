@@ -20,7 +20,7 @@ void GameEngine::initialize()
 	// setup GUI
 	guiTest.initialize(L"images/gui3.png", 2, 1, 2, 32);
 	// setup dungeon
-	Dungeon1.initialise("dungeons\\Dungeon1.txt", this, &thePlayer);
+//	Dungeon1.initialise("dungeons\\Dungeon1.txt", this, &thePlayer);
 
 	// set up buttons
 	// button rect
@@ -43,7 +43,7 @@ void GameEngine::initialize()
 	main.initialize(btemp, V2DF(400,GRID_SIZE*13) );
 	main.setText("MAIN\nMENU", 9);
 	// UI
-	UI.initialize();
+//	UI.initialize();
 	bg.initialize(L"images/bg.png");
 	adlez.initialize(L"images/adlez.png");
 	gamebg.initialize(L"images/gamebg.png");
@@ -66,6 +66,10 @@ void GameEngine::update(float dT)
 			temp.right = 8;
 			thePlayer.initialize(temp);
 			m_state = GAME;
+			// Initialize UI
+			UI.initialize();
+			// setup dungeon
+			Dungeon1.initialise("dungeons\\Dungeon1.txt", this, &thePlayer);
 			// TODO:: remove this following line used for debug/test only
 			thePlayer.setCurrentRoom(Dungeon1.getStart());
 			thePlayer.setPosition( V2DF( GRID_SIZE * 8 + HALF_GRID + BORDER, GRID_SIZE * 6 + HALF_GRID + BORDER ) );
@@ -112,6 +116,8 @@ void GameEngine::update(float dT)
 		// UI update
 		// ..gets current player health
 		UI.update(thePlayer.getStatus());
+		if(Dungeon1.allDead())
+			m_state = VICTORY;
 		break;
 	case VICTORY:
 	case DEAD:

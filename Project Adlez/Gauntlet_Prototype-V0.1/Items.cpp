@@ -2,6 +2,18 @@
 #include "Player.h"
 #include "Room.h"
 
+Items::~Items()
+{
+	release();
+}
+
+void Items::release()
+{
+//	explosionTexture.release();
+//	bomb.release();
+//	boom.release();
+}
+
 Items::Items() {
 	I1Cldwn = 0;
 	I2Cldwn = 0;
@@ -27,6 +39,12 @@ Items::Items(Player *a_player) {
 	bombState = 0;
 	boomState = 0;
 
+	// setup explosion controlers
+//	explosion.active = false;
+//	explosion.duration = 0.5f;
+//	explosion.timePassed = 0.0f;
+//	explosionTexture.initialize(L"images/explosion.png",16,4,4,64);
+//	explosionAnimation.initialize(&explosionTexture,16);
 }
 
 //Use item depending what item is on slot 1
@@ -143,6 +161,8 @@ void Items::useBomb() {
 void Items::update(float dT) {
 	updateBomb(dT);
 	updateBoom(dT);
+	// update explosion animation
+//	explosionAnimation.update(dT);
 }
 void Items::updateBoom(float dT) {
 	
@@ -181,22 +201,29 @@ void Items::updateBoom(float dT) {
 	
 }
 void Items::updateBomb(float dT) {
+	// update cooldown of explosion
+//	CoolDownCtrl(dT, explosion);
 	//if bomb is activated
 	  //set timer
 	  //blow up after timer is done
 	//check for collisions when it blows up
 	Room* tempRoom;
 	tempRoom = player->getCurrentRoom();
-	if(bombState == 1) {
+	if(bombState == 1) 
+	{
 		CoolDownCtrl(dT, bombCldwn);
-		if(bombCldwn.active == false) {
-			for(int i = 0; i < tempRoom->EnemyCount(); i++) {
-				if(tempRoom->getEnemy(i)->collisionCheck(&bomb, false) ){
+		if(bombCldwn.active == false) 
+		{
+			for(int i = 0; i < tempRoom->EnemyCount(); i++) 
+			{
+				if(tempRoom->getEnemy(i)->collisionCheck(&bomb, false) )
+				{
 					//do damage to enemy here
 					tempRoom->getEnemy(i)->takeDmg(30);
 				}
 			}
 			bombState = 0;
+//			explosion.active = true;
 		}
 
 	}
@@ -206,6 +233,8 @@ void Items::render() {
 	if(bombCldwn.active) {
 		bomb.render();
 	}
+//	if(explosion.active)
+//		explosionAnimation.render(bomb.getPosition(),0.0f,1.0f);
 	if(boomCldwn.active) {
 		boom.render();
 	}
