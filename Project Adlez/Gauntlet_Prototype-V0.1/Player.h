@@ -37,9 +37,14 @@ private:
 	// for UI
 	STATUS status;
 
-	// animated player
-	Animation playerAnim;
-	bool start;
+	// sprite sheet for animation
+	Texture m_slash;
+	Texture m_block;
+
+	// animation
+	Animation playerWalk;
+	Animation playerSlash;
+	bool slashAnimActive;
 
 public:
 	Player();

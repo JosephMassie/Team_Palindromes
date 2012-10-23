@@ -34,8 +34,14 @@ Player::~Player()
 // set player's stats based on given class and load the proper texture
 void Player::initialize(FRect a_rect)
 {
+	// player walk
 	m_tex.initialize(L"images/adlez_walking.png", 8, 2, 4, 32);
-	playerAnim.initialize(&m_tex, 40.0f);
+	playerWalk.initialize(&m_tex, 40.0f);
+	// player slash
+	m_slash.initialize(L"images/adlez_slash2.png", 8, 2, 4, 32);
+	playerSlash.initialize(&m_slash, 80.0f);
+	// player block
+	m_block.initialize(L"images/shield_block.png");
 	// get references to input, sound, and graphics engines
 	pInput = Input::getInstance();
 	pSound = Sound::getInstance();
@@ -67,7 +73,7 @@ void Player::initialize(FRect a_rect)
 	m_pos = V2DF(GRID_SIZE+HALF_GRID,GRID_SIZE+HALF_GRID);
 	m_angle = 0.0f;
 	m_scale = 0.8f;
-	
+
 	// set up can shoot cool down
 	canShoot.active = false;
 	canShoot.duration = aSpd;
@@ -98,8 +104,17 @@ bool Player::checkForCollisions()
 void Player::render()
 {
 	// render player
-//	m_tex.draw(m_pos, m_angle, m_scale);
-	playerAnim.render(m_pos, m_angle, m_scale);
+	if(b2Cldwn.active)
+	{
+		m_block.draw(m_pos, m_angle, m_scale);
+	}
+	else
+	{
+		if(!slashAnimActive)
+			playerWalk.render(m_pos, m_angle, m_scale);
+		else
+			playerSlash.render(m_pos, m_angle, m_scale);
+	}
 
 	//render items
 	pItems.render();
@@ -108,7 +123,6 @@ void Player::render()
 // used to keep inheritance happy
 void Player::update(float dT)
 {
-	
 }
 
 // Gather input and update the player accordingly
@@ -154,16 +168,34 @@ void Player::Update(float dT, GameEngine* engine)
 	checkForCollisions();
 	resolveCollisions(); // if a collision occured resolve it
 
-	// update player animation
-	playerAnim.update(dT);
-	if(velocity.length() <= .5)
+	// slash animation is not active
+	if(!slashAnimActive)
 	{
-		playerAnim.stop(true);
+		// update walk animation
+		playerWalk.update(dT);
+		if(velocity.length() <= .5)
+		{
+			playerWalk.stop(true);
+		}
+		else
+		{
+			playerWalk.start(false);
+		}
+	}
+
+	// update slash animation
+	playerSlash.update(dT);
+	if(slot1 == SWORD && b1Cldwn.active)
+	{
+		slashAnimActive = true;
+		playerSlash.start(false);
 	}
 	else
 	{
-		playerAnim.start(false);
+		slashAnimActive = false;
+		playerSlash.stop(true);
 	}
+
 	//update Items
 	pItems.update(dT);
 }

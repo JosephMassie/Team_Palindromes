@@ -29,6 +29,8 @@ private:
 	Texture bg;
 	Texture adlez;
 	Texture gamebg;
+	// audio
+	Sound* pSound;
 
 public:
 	GameEngine();

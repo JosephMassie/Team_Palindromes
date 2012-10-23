@@ -19,9 +19,9 @@ void Sound::initialize()
 	system->init(100, FMOD_INIT_NORMAL, 0);
 
 	// create sounds
-	system->createSound("hit.wav", FMOD_DEFAULT, 0, &m_soundEffects[HIT]);
-	system->createSound("press.wav", FMOD_DEFAULT, 0, &m_soundEffects[PRESS]);
-	system->createSound("fire.wav", FMOD_DEFAULT, 0, &m_soundEffects[FIRE]);
+	system->createSound("audio/hit.wav", FMOD_DEFAULT, 0, &m_soundEffects[HIT]);
+	system->createSound("audio/press.wav", FMOD_DEFAULT, 0, &m_soundEffects[PRESS]);
+	system->createSound("audio/fire.wav", FMOD_DEFAULT, 0, &m_soundEffects[FIRE]);
 }
 
 Sound::Sound()
